@@ -1,16 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CRMExample.Entities.Abstract;
 
 namespace CRMExaple.Entities
 {
-    [Table("Clients")]
-    public class Client
-    {
-        [Key]
-        public int Id { get; set; }
 
-        [Required,StringLength(60)]
+    [Table("Clients")]
+    public class Client : EntityBase
+    {
+
+        [Required, StringLength(60)]
         public string Name { get; set; }
 
         [Required/*Gerekli Boş Geçilemez*/, StringLength(60)]
