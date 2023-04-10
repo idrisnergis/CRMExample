@@ -1,4 +1,4 @@
-﻿using CRMExaple.Entities;
+﻿using CRMExample.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRMExaple.DataAccess.Context
+namespace CRMExample.DataAccess.Context
 {
    public  class DatabaseContext : DbContext
     {

@@ -1,7 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CRMExample.DataAccess\CRMExample.DataAccess\CRMExample.DataAccess.csproj" />
+    <ProjectReference Include="..\CRMExample.Entities\CRMExample.Entities.csproj" />
+    <ProjectReference Include="..\CRMExample.Model\CRMExample.Model.csproj" />
+    <ProjectReference Include="..\CRMExpample.Model\CRMExpample.Model.csproj" />
+  </ItemGroup>
 
 </Project>

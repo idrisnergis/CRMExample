@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CRMExample.Entities.Abstract;
 
-namespace CRMExaple.Entities
+namespace CRMExample.Entities
 {
 
     [Table("Clients")]
@@ -21,6 +21,8 @@ namespace CRMExaple.Entities
 
         [StringLength(500)]
         public string Description { get; set; }
+
+        public bool IsCorporate { get; set; }
 
         public bool Locked { get; set; }
 
