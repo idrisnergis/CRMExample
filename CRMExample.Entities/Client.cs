@@ -27,5 +27,8 @@ namespace CRMExample.Entities
         public bool Locked { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        //TEST
+        public DateTime date2 { get; set; }
     }
 }
