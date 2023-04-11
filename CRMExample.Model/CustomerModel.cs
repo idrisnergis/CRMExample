@@ -11,6 +11,6 @@ namespace CRMExample.Model
         public bool IsCorporate { get; set; }
         public bool Locked { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public string CreatedAt { get; set; }
     }
 }
