@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CRMExample.Model
 {
@@ -11,6 +12,6 @@ namespace CRMExample.Model
         public bool IsCorporate { get; set; }
         public bool Locked { get; set; }
 
-        public string CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

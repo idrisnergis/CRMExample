@@ -19,7 +19,8 @@ namespace CRMExample.WebApp.Controllers
         // GET: CustomersController
         public ActionResult Index()
         {
-            return View();
+            var clients = _clientService.List();
+            return View(clients);
         }
 
         // GET: CustomersController/Details/5
@@ -39,33 +40,19 @@ namespace CRMExample.WebApp.Controllers
         //Model Create Add Options
         // POST: CustomersController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Create(CreateCustomerModel model)
         {
             if (ModelState.IsValid)
             {
                 _clientService.Create(model);
-                return RedirectToAction(nameof(Index));
+                return Json(new { ok = true });
             }
-                return View(model);
-            
+
+            return Json(new { ok = false });
+
         }
 
-        public ActionResult FakeInsert()
-        {
-            CreateCustomerModel model = new CreateCustomerModel
-            {
-                Name = "John Doe",
-                IsCorporate = false,
-                Email = "john@doe.com",
-                Phone = "5556667788",
-                Description = "Lorem ipsum dolor sit a met.",
-                Locked = false
-            };
-
-            _clientService.Create(model);
-            return RedirectToAction(nameof(Index));
-        }
 
         // GET: CustomersController/Edit/5
         public ActionResult Edit(int id)
