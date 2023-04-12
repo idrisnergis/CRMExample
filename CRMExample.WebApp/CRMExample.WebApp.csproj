@@ -6,6 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="wwwroot\assets\js\plugins\jquery\jquery.js" />
+    <None Include="wwwroot\assets\js\plugins\jquery\jquery.min.js" />
+    <None Include="wwwroot\assets\js\plugins\jquery\jquery.min.map" />
+    <None Include="wwwroot\assets\js\plugins\jquery\jquery.slim.js" />
+    <None Include="wwwroot\assets\js\plugins\jquery\jquery.slim.min.js" />
+    <None Include="wwwroot\assets\js\plugins\jquery\jquery.slim.min.map" />
+    <None Include="wwwroot\assets\js\plugins\toastr\toastr.js.map" />
+    <None Include="wwwroot\assets\js\plugins\toastr\toastr.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.17" />
   </ItemGroup>
 

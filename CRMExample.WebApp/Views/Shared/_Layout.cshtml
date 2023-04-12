@@ -1,14 +1,12 @@
-﻿@{
-    string GetNavActiveCssClass(string pageName)
-    {
-        string cssClass = string.Empty;
-        if (ViewData["PageName"] != null)
-        {
-            cssClass = (ViewData["PageName"].ToString() == pageName) ? "active bg-gradient-primary" : "";
-        }
-        return cssClass;
-    }
-}
+﻿@{ string GetNavActiveCssClass(string pageName)
+                {
+                    string cssClass = string.Empty;
+                    if (ViewData["PageName"] != null)
+                    {
+                        cssClass = (ViewData["PageName"].ToString() == pageName) ? "active bg-gradient-primary" : "";
+                    }
+                    return cssClass;
+                } }
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,9 +26,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="~/assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+    <link href="~/assets/js/plugins/toastr/toastr.min.css" rel="stylesheet" />
+
     <style>
         .form-check {
-            padding-left: 0;
+         padding-left: 0;
         }
     </style>
     @await RenderSectionAsync("Styles", required: false)
@@ -390,18 +390,9 @@
     <script src="~/assets/js/core/popper.min.js"></script>
     <script src="~/assets/js/core/bootstrap.min.js"></script>
     <script src="~/assets/js/plugins/perfect-scrollbar.min.js"></script>
-
-
-
-
-
-
-
-
-
-
     <script src="~/assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script src="~/assets/js/plugins/chartjs.min.js"></script>
+    <script src="~/assets/js/plugins/toastr/toastr.min.js"></script>
     <script>
         var ctx = document.getElementById("chart-bars").getContext("2d");
         new Chart(ctx, {
@@ -654,6 +645,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="~/assets/js/material-dashboard.min.js" asp-append-version="true"></script>
+    <script src="~/assets/js/scripts.min.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

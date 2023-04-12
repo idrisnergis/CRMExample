@@ -22,7 +22,7 @@ namespace CRMExample.Model
         public string Phone { get; set; }
 
         [Display(Name = "Açıklama")]
-        [StringLength(500, ErrorMessage = "{0} alanı en fazla {1} karakter olabilir.")]
+        [StringLength(500)]
         public string Description { get; set; }
 
         [Display(Name = "Kurumsal")]

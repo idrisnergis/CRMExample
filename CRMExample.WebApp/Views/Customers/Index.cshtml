@@ -71,7 +71,7 @@
                                         <span class="text-secondary text-xs font-weight-bold">@client.CreatedAt</span>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <a href="javascript:;" class="text-info font-weight-bold text-xs me-2">
+                                        <a href="javascript:;"  class="text-info font-weight-bold text-xs me-2">
                                             Düzenle
                                         </a>
                                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs me-2">
@@ -159,11 +159,11 @@
                             <p class="text-sm">
                                 Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod.
                             </p>
-                            <div class="input-group input-group-outline my-3">
+                            <div class="input-group input-group-outline my-3" id="1234">
                                 <label class="form-label">Ad Soyad / Şirket Adı</label>
                                 <input id="name" type="text" class="form-control">
                             </div>
-                            <div class="input-group input-group-outline my-3">
+                            <div class="input-group  input-group-outline my-3">
                                 <label class="form-label">E-posta</label>
                                 <input id="email" type="email" class="form-control">
                             </div>
@@ -179,7 +179,7 @@
                                 <input class="form-check-input" type="checkbox" id="islocked">
                                 <label class="custom-control-label" for="customCheck1">Pasif</label>
                             </div>
-                            <div class="input-group input-group-outline my-3">
+                            <div class="input-group  input-group-outline my-3">
                                 <label class="form-label">Açıklama</label>
                                 <textarea id="desc" cols="30" rows="2" class="form-control"></textarea>
                             </div>
@@ -194,6 +194,7 @@
         </div>
     </div>
 </div>
+
 
 @section Scripts{
     <script>
@@ -226,10 +227,15 @@
                 if (result.error == true) {
                     for (var i in result.errors) {
                         var err = result.errors[i];
-                        modal_body.find("#" + err.key.toLocaleLowerCase()).parent.addClass("is-invalid");
+                        modal_body.find("" + err.key.toLocaleLowerCase()).parent().addClass("is-invalid");//Toastr Jquary  ? TODO
+                        toastr.error(err.value, "Hata");
                     }
                 } else {
-                    //
+                    // başarı mesajı göster ve modal kapat.
+                    toastr.success(result.success, "Başarılı");
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
                 }
             });
         }

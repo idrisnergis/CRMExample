@@ -5,6 +5,10 @@
     {
       "library": "jquery@3.6.4",
       "destination": "wwwroot/assets/js/plugins/jquery/jquery/"
+    },
+    {
+      "library": "toastr.js@2.1.4",
+      "destination": "wwwroot/assets/js/plugins/toastr.js/"
     }
   ]
 }
