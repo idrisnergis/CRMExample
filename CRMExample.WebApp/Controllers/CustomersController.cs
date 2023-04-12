@@ -4,6 +4,7 @@ using CRMExample.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Sockets;
+using System.Linq;
 
 namespace CRMExample.WebApp.Controllers
 {
@@ -43,14 +44,24 @@ namespace CRMExample.WebApp.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Create(CreateCustomerModel model)
         {
+            AjaxResponseModel<string> response = new AjaxResponseModel<string>();
+
             if (ModelState.IsValid)
             {
                 _clientService.Create(model);
-                return Json(new { ok = true });
+
+                response.Success = "Müşteri Eklendi.";
+                return Json(response);
             }
 
-            return Json(new { ok = false });
-
+            foreach (var item in ModelState.Values)
+            {
+                if (item.Errors.Count > 0)
+                {
+                    item.Errors.ToList().ForEach(err => response.AddError("", err.ErrorMessage));
+                }
+            }
+            return Json(response);
         }
 
 
