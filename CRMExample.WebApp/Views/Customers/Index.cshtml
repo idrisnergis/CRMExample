@@ -216,9 +216,21 @@
             $.ajax({
                 method: "post",
                 url: "/Customers/Create",
-                data: data
+                data: data,
+                beforeSend: function () {
+                    modal_body.find(".is-invalid").removeClass("is-invalid");
+                }
             }).done(function (result) {
                 console.log("result", result);
+
+                if (result.error == true) {
+                    for (var i in result.errors) {
+                        var err = result.errors[i];
+                        modal_body.find("#" + err.key.toLocaleLowerCase()).parent.addClass("is-invalid");
+                    }
+                } else {
+                    //
+                }
             });
         }
     </script>
