@@ -1,6 +1,7 @@
 ﻿using CRMExample.DataAccess;
 using CRMExample.Entities;
 using CRMExample.Model;
+using CRMExample.Models;
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
@@ -13,6 +14,8 @@ namespace CRMExample.Services
 
         void Create(CreateCustomerModel model);
         List<Client> List();
+        Client GetById(int id);
+        void Update(int id ,CreateCustomerModel model);
     }
 
     public class ClientService : IClientService
@@ -53,6 +56,24 @@ namespace CRMExample.Services
                 CreatedAt = System.DateTime.Now
             };
             _repository.Add(client);
+        }
+
+        public Client GetById(int id)
+        {
+            return _repository.Get(id);
+        }
+
+        public void Update(int id , CreateCustomerModel model)
+        {
+            Client client = _repository.Get(id);
+            client.Name = model.Name;
+            client.Email = model.Email;
+            client.Phone = model.Phone;
+            client.Locked = model.Locked;
+            client.IsCorporate = model.IsCorporate;
+            client.Description = model.Description;
+         
+            _repository.Update(client);
         }
     }
 

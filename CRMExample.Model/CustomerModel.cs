@@ -1,20 +1,20 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CRMExample.Model
+namespace CRMExample.Models
 {
-    public class CreateCustomerModel
+    public abstract class CustomerBaseModel
     {
         [Display(Name = "Ad Soyad / Şirket Adı")]
         [Required(ErrorMessage = "{0} alanı zorunludur.")]
         [StringLength(60, ErrorMessage = "{0} alanı en fazla {1} karakter olabilir.")]
-        public string Name { get; set; }
+        public string Name { get; set; } // John Doe or Codeove
 
-        [Display(Name = "E-Mail Adres")]
+
+        [Display(Name = "E-Posta")]
         [Required(ErrorMessage = "{0} alanı zorunludur.")]
         [EmailAddress(ErrorMessage = "Lütfen geçerli bir e-posta adresi giriniz.")]
         [StringLength(60, ErrorMessage = "{0} alanı en fazla {1} karakter olabilir.")]
-        //[Required/*Gerekli Boş Geçilemez*/]
         public string Email { get; set; }
 
         [Display(Name = "Telefon")]
@@ -22,7 +22,7 @@ namespace CRMExample.Model
         public string Phone { get; set; }
 
         [Display(Name = "Açıklama")]
-        [StringLength(500)]
+        [StringLength(500, ErrorMessage = "{0} alanı en fazla {1} karakter olabilir.")]
         public string Description { get; set; }
 
         [Display(Name = "Kurumsal")]
@@ -30,8 +30,16 @@ namespace CRMExample.Model
 
         [Display(Name = "Pasif")]
         public bool Locked { get; set; }
-
-        [Display(Name = "Tarih")]
-        public DateTime CreatedAt { get; set; }
     }
+
+    public class CreateCustomerModel : CustomerBaseModel
+    {
+
+    }
+
+    public class EditCustomerModel : CustomerBaseModel
+    {
+
+    }
+
 }

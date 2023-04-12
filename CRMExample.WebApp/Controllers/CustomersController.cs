@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Sockets;
 using System.Linq;
 using System.Collections.Generic;
+using CRMExample.Entities;
+using CRMExample.Models;
 
 namespace CRMExample.WebApp.Controllers
 {
@@ -53,6 +55,38 @@ namespace CRMExample.WebApp.Controllers
                 return Json(response);
             }
 
+            AddModelStateErrorsToAjaxResponse(response);
+            return Json(response);
+        }
+
+
+        // GET: Customers/Edit/5
+        public ActionResult Edit(int id)
+        {
+            var client =_clientService.GetById(id);
+            return Json(new AjaxResponseModel<Client> { Data = client });
+
+        }
+
+        // POST: Customers/Edit/5
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, CreateCustomerModel model)
+        {
+            AjaxResponseModel<string> response = new AjaxResponseModel<string>();
+            if (ModelState.IsValid)
+            {
+                _clientService.Update(id , model);
+                response.Success = "Müşteri Güncellendi.";
+                return Json(response);
+            }
+
+            AddModelStateErrorsToAjaxResponse(response);
+            return Json(response);
+        }
+
+        private void AddModelStateErrorsToAjaxResponse(AjaxResponseModel<string> response)
+        {
             foreach (var key in ModelState.Keys)
             {
                 var item = ModelState.GetValueOrDefault(key);
@@ -61,29 +95,6 @@ namespace CRMExample.WebApp.Controllers
                 {
                     item.Errors.ToList().ForEach(err => response.AddError("", err.ErrorMessage));
                 }
-            }
-            return Json(response);
-        }
-
-
-        // GET: CustomersController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: CustomersController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
             }
         }
 
