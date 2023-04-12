@@ -30,16 +30,15 @@ namespace CRMExample.WebApp.Controllers
         // GET: CustomersController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
-        }
+            var client = _clientService.GetById(id);
+            return Json(new AjaxResponseModel<Client> { Data = client });
+         }
 
         // GET: CustomersController/Create
         public ActionResult Create()
         {
             return View();
         }
-
-
 
         //Model Create Add Options
         // POST: CustomersController/Create
