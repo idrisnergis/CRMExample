@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Sockets;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace CRMExample.WebApp.Controllers
 {
@@ -54,9 +55,11 @@ namespace CRMExample.WebApp.Controllers
                 return Json(response);
             }
 
-            foreach (var item in ModelState.Values)
+            foreach (var key in ModelState.Keys)
             {
-                if (item.Errors.Count > 0)
+                var item = ModelState.GetValueOrDefault(key);
+
+                if (item  != null && item.Errors.Count > 0)
                 {
                     item.Errors.ToList().ForEach(err => response.AddError("", err.ErrorMessage));
                 }
