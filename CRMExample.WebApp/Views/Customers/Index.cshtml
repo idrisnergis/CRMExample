@@ -23,12 +23,26 @@
                         </button>
                     </div>
                     <div>
-                        <div class="input-group input-group-sm input-group-outline">
+                        <div class="input-group input-group-sm input-group-outline" @(ViewData["search"] != null ? "is-filled" : "")>
                             <label class="form-label">Arama</label>
-                            <input type="text" class="form-control form-control-sm" />
+                            <input id="search" type="text" class="form-control form-control-sm" value="@ViewData["search"]" />
+                            @if (ViewData["search"] != null)
+                            {
+                          <span>
+                              <a asp-action="Index" class="text-danger font-weight-bold text-xs ms-3">Temizle</a>
+                          </span>
+                            }
                         </div>
                     </div>
                 </div>
+                @if (ViewData["search"] != null)
+                {
+                    <div class="px-5">
+                      <p class="text-sm text-secondary font-weight-bold">
+                         Arama sonucunu görüntülüyorsunuz : <span class="text-primary">@ViewData["search"]</span>
+                      </p>
+                    </div>
+                }
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0">
                         <thead>
@@ -48,8 +62,7 @@
                     <td class="text-center" colspan="6">
                         <span class="text-xs font-weight-bold mb-0">Herhangi bir müşteri verisi bulunamadı.</span>
                     </td>
-                </tr>
-}
+                </tr>}
                             @foreach (var client in Model)
                             {
                 <tr>
@@ -75,12 +88,11 @@
                         <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#modal-details-client" onclick="setdetailClientModal(@client.Id)" class="text-secondary font-weight-bold text-xs me-2">
                             Detay
                         </a>
-                        <a href="javascript:;"  data-bs-toggle="modal" data-bs-target="#modal-delete-client" onclick="setDeleteClientModal(@client.Id)" class="text-danger font-weight-bold text-xs me-2">
+                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#modal-delete-client" onclick="setDeleteClientModal(@client.Id)" class="text-danger font-weight-bold text-xs me-2">
                             Sil
                         </a>
                     </td>
-                </tr>
-}
+                </tr>}
                         </tbody>
                     </table>
                 </div>
@@ -303,7 +315,7 @@
                     modal_body.find(".is-invalid").removeClass("is-invalid");
                 }
             }).done(function (result) {
-                console.log("result", result);
+                //console.log("result", result);
 
                 if (result.error == true) {
                     for (var i in result.errors) {
@@ -320,6 +332,7 @@
                 }
             });
         }
+
         function setEditClientModal(clientid) {
             $.ajax({
                 method: "get",
@@ -350,6 +363,7 @@
                 }
             });
         }
+
         function setdetailClientModal(clientid) {
             $.ajax({
                 method: "get",
@@ -378,6 +392,7 @@
                 }
             });
         }
+
         function updateClient() {
             var modal_body = $("#modal-edit-client .modal-body");
             var fname = modal_body.find("#name").val();
@@ -403,7 +418,7 @@
                     modal_body.find(".is-invalid").removeClass("is-invalid");
                 }
             }).done(function (result) {
-                console.log("result", result);
+                //console.log("result", result);
                 if (result.error == true) {
                     for (var i in result.errors) {
                         var err = result.errors[i];
@@ -449,6 +464,7 @@
                 }
             });
         }
+
         function deleteClient() {
             var modal_body = $("#modal-delete-client .modal-body");
             var fid = modal_body.find("#clientid").val();
@@ -469,5 +485,23 @@
                 }
             });
         }
+
+        //function searchRun(e) {
+        //    console.log(e);
+        //    if (e.key == "Enter") {
+        //        console.log("search", $("#search").val());
+        //    }
+        //}
+        $(function () {
+            $("#search").keyup(function (e) {
+                //console.log(e.key);
+
+                if (e.key == "Enter") {
+                    //console.log("search", $(this).val());
+                    var keyword = $(this).val();
+                    window.location = "/Customers/Index?search=" + encodeURI(keyword);
+                }
+            });
+        });
     </script>
 }

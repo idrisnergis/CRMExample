@@ -22,9 +22,19 @@ namespace CRMExample.WebApp.Controllers
         }
 
         // GET: CustomersController
-        public ActionResult Index()
+        public ActionResult Index(string search="")
         {
-            var clients = _clientService.List();
+            List<Client> clients = null;
+            if (string.IsNullOrEmpty(search) || string.IsNullOrWhiteSpace(search))
+            {
+                clients = _clientService.List();
+            }
+            else
+            {
+                clients = _clientService.ListBySearch(search);
+                ViewData["search"] = search;
+            }
+
             return View(clients);
         }
 

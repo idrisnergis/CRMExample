@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace CRMExample.DataAccess.Abstract
 {
@@ -22,6 +23,11 @@ namespace CRMExample.DataAccess.Abstract
         public List<TEntity> GetAll()
         {
             return _set.ToList();
+        }
+
+        public List<TEntity> GetAll(Expression<Func<TEntity,bool>> predicate)
+        {
+            return _set.Where(predicate).ToList();
         }
 
         public TEntity Get(int id)
