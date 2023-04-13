@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRMExample.WebApp", "..\CRM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRMExample.Model", "..\CRMExample.Model\CRMExample.Model.csproj", "{780AEB5C-ADCF-4957-B98E-B7163D4D73E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMExample.Common", "..\CRMExample.Common\CRMExample.Common.csproj", "{FE483B45-F7AE-4B85-A545-A4DC5F3565CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{780AEB5C-ADCF-4957-B98E-B7163D4D73E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{780AEB5C-ADCF-4957-B98E-B7163D4D73E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{780AEB5C-ADCF-4957-B98E-B7163D4D73E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE483B45-F7AE-4B85-A545-A4DC5F3565CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE483B45-F7AE-4B85-A545-A4DC5F3565CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE483B45-F7AE-4B85-A545-A4DC5F3565CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE483B45-F7AE-4B85-A545-A4DC5F3565CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

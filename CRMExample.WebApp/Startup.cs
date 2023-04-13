@@ -32,9 +32,18 @@ namespace CRMExpample.WebApp
                 options.UseSqlServer(Configuration.GetConnectionString("ConnectionDB"));
             });
             services.AddControllersWithViews();
+            services.AddDistributedMemoryCache();
+            services.AddSession(opts =>
+            {
+                opts.Cookie.Name = "Crm.session";
+                opts.IdleTimeout = TimeSpan.FromMinutes(5);//Cookii 
+            });
 
             services.AddScoped<IClientService,ClientService>();
-            services.AddScoped<IClientRepository , ClientRepository>();
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IClientRepository , ClientRepository>();          
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +57,9 @@ namespace CRMExpample.WebApp
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseSession();
+
             app.UseStaticFiles();
 
             app.UseRouting();
