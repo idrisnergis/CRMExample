@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections.Generic;
 using CRMExample.Entities;
 using CRMExample.Models;
+using System;
 
 namespace CRMExample.WebApp.Controllers
 {
@@ -98,24 +99,27 @@ namespace CRMExample.WebApp.Controllers
         }
 
         // GET: CustomersController/Delete/5
+        //public ActionResult Delete(int id)
+        //{
+        //    return null;
+        //}
+
+        // POST: CustomersController/Delete/
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: CustomersController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
+            AjaxResponseModel<string> response = new AjaxResponseModel<string>();
             try
             {
-                return RedirectToAction(nameof(Index));
+               _clientService.Delete(id);
+                response.Success = "Müşteri Silindi.";
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                response.AddError("ex" , ex.Message);
             }
+            return Json(response);
         }
     }
 }

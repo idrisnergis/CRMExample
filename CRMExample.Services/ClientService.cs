@@ -16,6 +16,8 @@ namespace CRMExample.Services
         List<Client> List();
         Client GetById(int id);
         void Update(int id ,CreateCustomerModel model);
+        
+        void Delete(int id);
     }
 
     public class ClientService : IClientService
@@ -74,6 +76,11 @@ namespace CRMExample.Services
             client.Description = model.Description;
          
             _repository.Update(client);
+        }
+
+        public void Delete(int id)
+        {
+             _repository.Remove(id);
         }
     }
 

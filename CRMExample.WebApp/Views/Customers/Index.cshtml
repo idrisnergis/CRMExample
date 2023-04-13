@@ -49,7 +49,7 @@
                         <span class="text-xs font-weight-bold mb-0">Herhangi bir müşteri verisi bulunamadı.</span>
                     </td>
                 </tr>
-                            }
+}
                             @foreach (var client in Model)
                             {
                 <tr>
@@ -75,12 +75,12 @@
                         <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#modal-details-client" onclick="setdetailClientModal(@client.Id)" class="text-secondary font-weight-bold text-xs me-2">
                             Detay
                         </a>
-                        <a href="javascript:;" class="text-danger font-weight-bold text-xs me-2">
+                        <a href="javascript:;"  data-bs-toggle="modal" data-bs-target="#modal-delete-client" onclick="setDeleteClientModal(@client.Id)" class="text-danger font-weight-bold text-xs me-2">
                             Sil
                         </a>
                     </td>
                 </tr>
-                              }
+}
                         </tbody>
                     </table>
                 </div>
@@ -228,8 +228,55 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modal-delete-client" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title font-weight-normal" id="modal-title-default">Müşteri Sil</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <p class="text-sm">
+                                Müşteri bilgilerini silmek istediğinizden emin misiniz?
+                            </p>
+                            <div class="input-group input-group-outline my-3">
+                                <label class="form-label">Ad Soyad / Şirket Adı</label>
+                                <input id="name" type="text" class="form-control" readonly>
+                            </div>
+                            <div class="input-group input-group-outline my-3">
+                                <label class="form-label">E-posta</label>
+                                <input id="email" type="email" class="form-control" readonly>
+                            </div>
+                            <div class="input-group input-group-outline my-3">
+                                <label class="form-label">Telefon</label>
+                                <input id="phone" type="tel" class="form-control" readonly>
+                            </div>
+                            <div class="form-check my-3">
+                                <input class="form-check-input" type="checkbox" id="iscorporate" disabled>
+                                <label class="custom-control-label" for="customCheck1">Kurumsal</label>
+                            </div>
+                            <div class="form-check my-3">
+                                <input class="form-check-input" type="checkbox" id="islocked" disabled>
+                                <label class="custom-control-label" for="customCheck1">Pasif</label>
+                            </div>
+                            <div class="input-group input-group-outline my-3">
+                                <label class="form-label">Açıklama</label>
+                                <textarea id="desc" cols="30" rows="2" class="form-control" readonly></textarea>
+                            </div>
+                            <input type="hidden" id="clientid" value="" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-gradient-warning" onclick="deleteClient()">Sil</button>
+                        <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 @section Scripts{
     <script>
         function createClient() {
@@ -366,6 +413,56 @@
                 } else {
                     // başarı mesajı göster ve modal kapat.
                     toastr.success(result.success, "Güncellendi");
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 500);
+                }
+            });
+        }
+
+        //Data listed before of  Delete
+        function setDeleteClientModal(clientid) {
+            $.ajax({
+                method: "get",
+                url: "/Customers/Details/" + clientid
+            }).done(function (result) {
+                if (result != null) {
+                    var modal_body = $("#modal-delete-client .modal-body");
+                    var inp_name = modal_body.find("#name");
+                    var inp_email = modal_body.find("#email");
+                    var inp_phone = modal_body.find("#phone");
+                    var inp_desc = modal_body.find("#desc");
+                    var inp_iscorporate = modal_body.find("#iscorporate");
+                    var inp_locked = modal_body.find("#islocked");
+                    var inp_clientid = modal_body.find("#clientid");
+                    inp_name.val(result.data.name);
+                    inp_email.val(result.data.email);
+                    inp_phone.val(result.data.phone);
+                    inp_desc.val(result.data.description);
+                    inp_iscorporate.prop('checked', result.data.isCorporate);
+                    inp_locked.prop('checked', result.data.locked);
+                    inp_clientid.val(result.data.id);
+                    if (inp_name.val() != null) inp_name.parent().addClass("is-filled");
+                    if (inp_email.val() != null) inp_email.parent().addClass("is-filled");
+                    if (inp_phone.val() != null) inp_phone.parent().addClass("is-filled");
+                    if (inp_desc.val() != null) inp_desc.parent().addClass("is-filled");
+                }
+            });
+        }
+        function deleteClient() {
+            var modal_body = $("#modal-delete-client .modal-body");
+            var fid = modal_body.find("#clientid").val();
+            $.ajax({
+                method: "post",
+                url: "/Customers/Delete/" + fid
+            }).done(function (result) {
+                if (result.error == true) {
+                    for (var i in result.errors) {
+                        toastr.error(err.value, "Hata");
+                    }
+                } else {
+                    // başarı mesajı göster ve modal kapat.
+                    toastr.success(result.success, "Silindi");
                     setTimeout(function () {
                         window.location.reload();
                     }, 500);

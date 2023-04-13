@@ -6,7 +6,7 @@ namespace CRMExample.DataAccess
 {
     public interface IClientRepository : IRepository<Client>
     {
-
+        
     }
 
     public class ClientRepository : Repository<Client>, IClientRepository
