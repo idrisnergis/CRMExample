@@ -4,7 +4,6 @@ using CRMExample.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Sockets;
-using System.Linq;
 using System.Collections.Generic;
 using CRMExample.Entities;
 using CRMExample.Models;
@@ -12,7 +11,7 @@ using System;
 
 namespace CRMExample.WebApp.Controllers
 {
-    public class CustomersController : Controller
+    public class CustomersController : ControllerBase
     {
         private readonly IClientService _clientService;
 
@@ -95,18 +94,7 @@ namespace CRMExample.WebApp.Controllers
             return Json(response);
         }
 
-        private void AddModelStateErrorsToAjaxResponse(AjaxResponseModel<string> response)
-        {
-            foreach (var key in ModelState.Keys)
-            {
-                var item = ModelState.GetValueOrDefault(key);
-
-                if (item != null && item.Errors.Count > 0)
-                {
-                    item.Errors.ToList().ForEach(err => response.AddError("", err.ErrorMessage));
-                }
-            }
-        }
+       
 
         // GET: CustomersController/Delete/5
         //public ActionResult Delete(int id)

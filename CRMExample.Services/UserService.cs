@@ -38,6 +38,7 @@ namespace CRMExample.Services
                 Email = model.Email,
                 Username = model.Username,
                 Password = (Constants.PasswordSalt + model.Password).MD5(),//Encrypt
+                Role= model.Role,
                 Locked = model.Locked,
                 CreatedAt = System.DateTime.Now
             };

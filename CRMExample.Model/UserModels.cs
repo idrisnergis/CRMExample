@@ -42,7 +42,6 @@ namespace CRMExample.Models
 
         [Display(Name = "Rol")]
         [StringLength(20, ErrorMessage = "{0} alanı zorunludur.")]
-
         public string Role { get; set; }
 
         [Display(Name = "Pasif")]
