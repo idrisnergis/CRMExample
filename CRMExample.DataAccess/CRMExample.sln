@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32811.315
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33328.57
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRMExample.DataAccess", "CRMExample.DataAccess\CRMExample.DataAccess.csproj", "{F1D98C34-3E87-4BF3-A72A-E3D122802184}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRMExample.Entities", "..\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRMExample.WebApp", "..\CRMExample.WebApp\CRMExample.WebApp.csproj", "{B7B5AAD2-1AA4-46FC-828A-AAB82D308E12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMExample.Model", "..\CRMExample.Model\CRMExample.Model.csproj", "{780AEB5C-ADCF-4957-B98E-B7163D4D73E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRMExample.Model", "..\CRMExample.Model\CRMExample.Model.csproj", "{780AEB5C-ADCF-4957-B98E-B7163D4D73E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
