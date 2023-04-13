@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CRMExample.Models
 {
+
     public abstract class CustomerBaseModel
     {
         [Display(Name = "Ad Soyad / Şirket Adı")]
