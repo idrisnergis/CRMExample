@@ -5,9 +5,6 @@ using CRMExample.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CRMExample.WebApp.Controllers
 {
@@ -54,6 +51,11 @@ namespace CRMExample.WebApp.Controllers
             return Json(response);
         }
 
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction(nameof(Login));
+        }
         public IActionResult CreateFakeUser()//Test User Create
         {
             _userService.Create(new CreateUserModel
