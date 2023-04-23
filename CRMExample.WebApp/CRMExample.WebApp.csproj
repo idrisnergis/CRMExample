@@ -11,14 +11,30 @@
 
   <ItemGroup>
     <None Include="bundleconfig.json" />
+    <None Include="wwwroot\assets\js\core\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\assets\js\core\bootstrap.min.js" />
+    <None Include="wwwroot\assets\js\core\popper.min.js" />
+    <None Include="wwwroot\assets\js\material-dashboard.js" />
+    <None Include="wwwroot\assets\js\material-dashboard.js.map" />
+    <None Include="wwwroot\assets\js\material-dashboard.min.js" />
+    <None Include="wwwroot\assets\js\plugins\bootstrap-notify.js" />
+    <None Include="wwwroot\assets\js\plugins\Chart.extension.js" />
+    <None Include="wwwroot\assets\js\plugins\chartjs.min.js" />
     <None Include="wwwroot\assets\js\plugins\jquery\jquery.js" />
     <None Include="wwwroot\assets\js\plugins\jquery\jquery.min.js" />
     <None Include="wwwroot\assets\js\plugins\jquery\jquery.min.map" />
     <None Include="wwwroot\assets\js\plugins\jquery\jquery.slim.js" />
     <None Include="wwwroot\assets\js\plugins\jquery\jquery.slim.min.js" />
     <None Include="wwwroot\assets\js\plugins\jquery\jquery.slim.min.map" />
+    <None Include="wwwroot\assets\js\plugins\perfect-scrollbar.min.js" />
+    <None Include="wwwroot\assets\js\plugins\smooth-scrollbar.min.js" />
+    <None Include="wwwroot\assets\js\plugins\toastr.js\toastr.js.map" />
+    <None Include="wwwroot\assets\js\plugins\toastr.js\toastr.min.js" />
     <None Include="wwwroot\assets\js\plugins\toastr\toastr.js.map" />
     <None Include="wwwroot\assets\js\plugins\toastr\toastr.min.js" />
+    <None Include="wwwroot\assets\js\plugins\world.js" />
+    <None Include="wwwroot\assets\js\scripts.js" />
+    <None Include="wwwroot\assets\js\scripts.min.js" />
   </ItemGroup>
 
   <ItemGroup>

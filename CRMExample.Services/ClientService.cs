@@ -2,6 +2,7 @@
 using CRMExample.Entities;
 using CRMExample.Model;
 using CRMExample.Models;
+using CRMExample.Services.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
@@ -21,19 +22,19 @@ namespace CRMExample.Services
         List<Client> ListBySearch(string search);
     }
 
-    public class ClientService : IClientService
+    public class ClientService : ServiceBase<Client, IClientRepository>, IClientService
     {
         private readonly IClientRepository _repository;
 
-        public ClientService(IClientRepository repository)
+
+        public ClientService(IClientRepository repository) : base(repository)
         {
             _repository = repository;
         }
-
-        public List<Client> List()
-        {
-            return _repository.GetAll();
-        }
+        //public List<Client> List()
+        //{
+        //    return _repository.GetAll();
+        //}
 
         public void Create(string name, string email)
         {
@@ -54,19 +55,15 @@ namespace CRMExample.Services
                 Email = model.Email,
                 Phone = model.Phone,
                 Locked = model.Locked,
-                Description = model.Description,
                 IsCorporate = model.IsCorporate,
+                Description = model.Description,
                 CreatedAt = System.DateTime.Now
             };
             _repository.Add(client);
         }
 
-        public Client GetById(int id)
-        {
-            return _repository.Get(id);
-        }
 
-        public void Update(int id , CreateCustomerModel model)
+        public void Update(int id, CreateCustomerModel model)
         {
             Client client = _repository.Get(id);
             client.Name = model.Name;
@@ -75,20 +72,20 @@ namespace CRMExample.Services
             client.Locked = model.Locked;
             client.IsCorporate = model.IsCorporate;
             client.Description = model.Description;
-         
+
             _repository.Update(client);
         }
 
         public void Delete(int id)
         {
-             _repository.Remove(id);
+            _repository.Remove(id);
         }
 
         public List<Client> ListBySearch(string search)
         {
-            return _repository.GetAll(x => 
-                        x.Name.Contains(search) || 
-                        x.Email.Contains(search) || 
+            return _repository.GetAll(x =>
+                        x.Name.Contains(search) ||
+                        x.Email.Contains(search) ||
                         x.Phone.Contains(search) ||
                         x.Description.Contains(search));
         }

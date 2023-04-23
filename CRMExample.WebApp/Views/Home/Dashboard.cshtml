@@ -18,12 +18,12 @@
                 </div>
                 <div class="text-end pt-1">
                     <p class="text-sm mb-0 text-capitalize">Yeni Görev(Bugün)</p>
-                    <h4 class="mb-0"><span class="text-success">@Model.TodayCompletedIssueCount</span> / @Model.TodayIssueCount</h4>
+                    @*<h4 class="mb-0"><span class="text-success">@Model.TodayCompletedIssueCount</span> / @Model.TodayIssueCount</h4>*@
                 </div>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-                <p class="mb-0">Dün'e göre <span class="text-@(Model.IssueRateByYesterday > 0 ? "success" : "danger") text-sm font-weight-bolder">@Model.IssueRateByYesterday% </span></p>
+                @*<p class="mb-0">Dün'e göre <span class="text-@(Model.IssueRateByYesterday > 0 ? "success" : "danger") text-sm font-weight-bolder">@Model.IssueRateByYesterday% </span></p>*@
             </div>
         </div>
     </div>
@@ -35,12 +35,12 @@
                 </div>
                 <div class="text-end pt-1">
                     <p class="text-sm mb-0 text-capitalize">Yeni Müşteri(Bugün)</p>
-                    <h4 class="mb-0">@Model.TodayClientCount</h4>
+                    @*<h4 class="mb-0">@Model.TodayClientCount</h4>*@
                 </div>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-                <p class="mb-0">Dün'e göre <span class="text-@(Model.ClientRateByYesterday > 0 ? "success" : "danger") text-sm font-weight-bolder">@Model.ClientRateByYesterday% </span></p>
+               @* <p class="mb-0">Dün'e göre <span class="text-@(Model.ClientRateByYesterday > 0 ? "success" : "danger") text-sm font-weight-bolder">@Model.ClientRateByYesterday% </span></p>*@
             </div>
         </div>
     </div>
@@ -52,12 +52,12 @@
                 </div>
                 <div class="text-end pt-1">
                     <p class="text-sm mb-0 text-capitalize">Toplam Müşteri</p>
-                    <h4 class="mb-0"><span class="text-danger">@Model.ThisYearClientCount</span> / @Model.TotalClientCount</h4>
+                    @*<h4 class="mb-0"><span class="text-danger">@Model.ThisYearClientCount</span> / @Model.TotalClientCount</h4>*@
                 </div>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-                <p class="mb-0">Geçen yıl'a göre <span class="text-@(Model.ClientRateByLastYear > 0 ? "success" : "danger") text-sm font-weight-bolder">@Model.ClientRateByLastYear%</span></p>
+                @*<p class="mb-0">Geçen yıl'a göre <span class="text-@(Model.ClientRateByLastYear > 0 ? "success" : "danger") text-sm font-weight-bolder">@Model.ClientRateByLastYear%</span></p>*@
             </div>
         </div>
     </div>
@@ -69,12 +69,12 @@
                 </div>
                 <div class="text-end pt-1">
                     <p class="text-sm mb-0 text-capitalize">Tahsilat(Bugün)</p>
-                    <h4 class="mb-0">@Model.TodayCompletedLeadSum.ToString("C0")</h4>
+                    @*<h4 class="mb-0">@Model.TodayCompletedLeadSum.ToString("C0")</h4>*@
                 </div>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-                <p class="mb-0">Dün'e göre <span class="text-@(Model.CompletedLeadPriceRateByYesterday > 0 ? "success" : "danger") text-sm font-weight-bolder">@Model.CompletedLeadPriceRateByYesterday% </span></p>
+                @*<p class="mb-0">Dün'e göre <span class="text-@(Model.CompletedLeadPriceRateByYesterday > 0 ? "success" : "danger") text-sm font-weight-bolder">@Model.CompletedLeadPriceRateByYesterday% </span></p>*@
             </div>
         </div>
     </div>
@@ -150,7 +150,7 @@
                         <h6>Talepler</h6>
                         <p class="text-sm mb-0">
                             <i class="fa fa-check text-info" aria-hidden="true"></i>
-                            Bu ay <span class="font-weight-bold ms-1">@Model.CompletedLeadCountForThisMonth adet tamamlandı.</span>
+                            @*Bu ay <span class="font-weight-bold ms-1">@Model.CompletedLeadCountForThisMonth adet tamamlandı.</span>*@
                         </p>
                     </div>
                     @*<div class="col-lg-6 col-5 my-auto text-end">
