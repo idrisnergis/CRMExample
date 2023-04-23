@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/CRMExample.WebApp/wwwroot/assets/js/plugins/jquery/jquery/jquery.js

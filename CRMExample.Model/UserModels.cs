@@ -61,9 +61,6 @@ namespace CRMExample.Models
         [EmailAddress(ErrorMessage = "Lütfen geçerli bir e-posta adresi giriniz.")]
         public string Email { get; set; }
 
-        [Display(Name = "Kullanıcı Adı")]
-        [StringLength(25, ErrorMessage = "{0} alanı zorunludur.")]
-        public string Username { get; set; }
 
         [Display(Name = "Rol")]
         [StringLength(20, ErrorMessage = "{0} alanı zorunludur.")]
