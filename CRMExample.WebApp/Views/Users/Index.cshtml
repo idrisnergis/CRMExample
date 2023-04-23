@@ -108,9 +108,6 @@
                                         <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#modal-delete" onclick="setDeleteModal(@user.Id)" class="text-danger font-weight-bold text-xs me-2">
                                             Sil
                                         </a>
-                                        <a href="javascript:;" onclick="addArticletoSC()">
-                                            test
-                                        </a>
                                     </td>
                                 </tr>
                             }
@@ -391,7 +388,7 @@
                     toastr.success(result.success, "Güncellendi");
                     setTimeout(function () {
                         window.location.reload();
-                    }, 250h);
+                    }, 250);
                 }
             });
         }
