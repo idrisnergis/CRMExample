@@ -1,0 +1,431 @@
+﻿@model List<CRMExample.Entities.Issue>
+
+@{
+    ViewData["Title"] = "Görevler";
+    ViewData["PageName"] = "issues-index";
+}
+
+@*<style>
+        .input-group.input-group-outline .form-label{
+            top:-0.6rem;
+        }
+    </style>*@
+
+<div class="row">
+    <div class="col-12">
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Görev Listesi</h6>
+                </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+                <div class="px-4 d-flex justify-content-between">
+                    <div>
+                        <button class="btn btn-icon btn-3 btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modal-create" onclick="setCreateModal()">
+                            <i class="fa fa-plus me-2"></i>
+                            <span>Yeni Görev</span>
+                        </button>
+                    </div>
+                    <div>
+                        <div class="input-group input-group-sm input-group-outline @(ViewData["search"] != null ? "is-filled" : "")">
+                            <label class="form-label">Arama</label>
+                            <input id="search" type="search" class="form-control form-control-sm" autocomplete="off" value="@ViewData["search"]" />
+                            @if (ViewData["search"] != null)
+                            {
+                                <span>
+                                    <a asp-action="Index" class="ms-3 text-sm text-danger">Temizle</a>
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                @if (ViewData["search"] != null)
+                {
+                    <div class="px-5">
+                        <p class="text-sm text-secondary font-weight-bold">
+                            Arama sonucunu görüntülüyorsunuz : <span class="text-primary">@ViewData["search"]</span>
+                        </p>
+                    </div>
+                }
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Özet</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tamamlandı</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Son Tarih</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Atanan</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kayıt Tarihi</th>
+                                <th class="text-center text-secondary opacity-7"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (Model == null || Model.Count == 0)
+                            {
+                                <tr>
+                                    <td class="text-center" colspan="6">
+                                        <span class="text-xs font-weight-bold mb-0">Herhangi bir görev verisi bulunamadı.</span>
+                                    </td>
+                                </tr>
+                            }
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <span class="text-xs font-weight-bold mb-0">@item.Summary</span>
+                                    </td>
+                                    <td class="align-middletext-sm text-center">
+                                        <span class="badge badge-sm bg-gradient-@(item.Completed?"success":"secondary")">@(item.Completed ? "Tamamlandı" : "Tamamlanmadı")</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="text-xs font-weight-bold mb-0">@item.DueDate?.ToShortDateString()</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="text-xs font-weight-bold">@item.User.Name</span>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <span class="text-secondary text-xs font-weight-bold">@item.CreatedAt</span>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#modal-edit" onclick="setEditModal(@item.Id)" class="text-info font-weight-bold text-xs me-2">
+                                            Düzenle
+                                        </a>
+                                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#modal-details" class="text-secondary font-weight-bold text-xs me-2" onclick="setDetailsModal(@item.Id)">
+                                            Detay
+                                        </a>
+                                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#modal-delete" class="text-danger font-weight-bold text-xs me-2" onclick="setDeleteModal(@item.Id)">
+                                            Sil
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="modal-create" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title font-weight-normal" id="modal-title-default">Yeni Görev Oluştur</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <partial name="_ModalInputs" model="@(new ModalInputIssueViewModel())" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-gradient-primary" onclick="create()">Kaydet</button>
+                        <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title font-weight-normal" id="modal-title-default">Görev Güncelleme</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <partial name="_ModalInputs" model="@(new ModalInputIssueViewModel { HasId=true, HasCompletedField = true })" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-gradient-warning" onclick="update()">Güncelle</button>
+                        <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-details" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title font-weight-normal" id="modal-title-default">Görev Detayları</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <partial name="_ModalInputs" model="@(new ModalInputIssueViewModel { IsReadonly=true, HasCompletedField=true })" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title font-weight-normal" id="modal-title-default">Görev Sil</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <partial name="_ModalInputs" model="@(new ModalInputIssueViewModel { IsReadonly=true, HasId=true, HasCompletedField = true, Description="Aşağıdaki kullanıcı kaydını silmek istediğinize emin misiniz?" })" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-gradient-danger" onclick="destroy()">Sil (Geri Alınamaz!)</button>
+                        <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function loadUserListSelect(modalid, callback) {
+            $.ajax({
+                method: "get",
+                url: "/Issues/GetUserList"
+            }).done(function (result) {
+                console.log(result);
+
+                if (result != null && !result.error) {
+                    var modal_body = $("#" + modalid + " .modal-body");
+                    var inp_userid = modal_body.find("#userid");
+
+                    inp_userid.empty();
+
+                    for (var i = 0; i < result.data.length; i++) {
+                        var item = result.data[i];
+                        inp_userid.append(`<option value="${item.id}">${item.name}</option>`);
+                    }
+
+                    if (inp_userid.val() != null) inp_userid.parent().addClass("is-filled");
+                }
+            }).always(function () {
+                if (callback != null)
+                    callback();
+            });
+        }
+
+        function setCreateModal() {
+            loadUserListSelect("modal-create");
+        }
+
+        function create() {
+            var modal_body = $("#modal-create .modal-body");
+            var fsummary = modal_body.find("#summary").val();
+            var fduedate = modal_body.find("#duedate").val();
+            var fuserid = modal_body.find("#userid").val();
+
+            var data = {
+                "summary": fsummary,
+                "duedate": fduedate,
+                "userid": fuserid
+            };
+
+            $.ajax({
+                method: "post",
+                url: "/Issues/Create",
+                data: data,
+                beforeSend: function () {
+                    modal_body.find(".is-invalid").removeClass("is-invalid");
+                }
+            }).done(function (result) {
+                if (result.error == true) {
+                    for (var i in result.errors) {
+                        var err = result.errors[i];
+                        modal_body.find("#" + err.key.toLocaleLowerCase()).parent().addClass("is-invalid");
+                        toastr.error(err.value, "Hata");
+                    }
+                } else {
+                    // başarı mesajı göster ve modal kapat.
+                    toastr.success(result.success, "Yeni Görev");
+
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 500);
+                }
+            });
+        }
+
+        function setEditModal(id) {
+            loadUserListSelect("modal-edit",function () {
+                $.ajax({
+                    method: "get",
+                    url: "/Issues/Details/" + id
+                }).done(function (result) {
+                    if (result != null) {
+                        var modal_body = $("#modal-edit .modal-body");
+                        var inp_summary = modal_body.find("#summary");
+                        var inp_duedate = modal_body.find("#duedate");
+                        var inp_completed = modal_body.find("#completed");
+                        var inp_userid = modal_body.find("#userid");
+                        var inp_issueid = modal_body.find("#issueid");
+
+                        inp_summary.val(result.data.summary);
+                        inp_duedate.val(result.data.dueDate);
+                        inp_completed.prop('checked', result.data.completed);
+                        inp_userid.val(result.data.userId);
+                        inp_issueid.val(result.data.id);
+
+                        if (inp_summary.val() != null) inp_summary.parent().addClass("is-filled");
+                        if (inp_duedate.val() != null) inp_duedate.parent().addClass("is-filled");
+                        if (inp_userid.val() != null) inp_userid.parent().addClass("is-filled");
+                    }
+                });
+            });
+        }
+
+        function update() {
+            var modal_body = $("#modal-edit .modal-body");
+            var fsummary = modal_body.find("#summary").val();
+            var fduedate = modal_body.find("#duedate").val();
+            var fuserid = modal_body.find("#userid").val();
+            var fcompleted = modal_body.find("#completed").prop('checked');
+            var fid = modal_body.find("#issueid").val();
+
+            var data = {
+                "summary": fsummary,
+                "duedate": fduedate,
+                "userid": fuserid,
+                "completed": fcompleted
+            };
+            console.log(data);
+
+            $.ajax({
+                method: "post",
+                url: "/Issues/Edit/" + fid,
+                data: data,
+                beforeSend: function () {
+                    modal_body.find(".is-invalid").removeClass("is-invalid");
+                }
+            }).done(function (result) {
+                if (result.error == true) {
+                    for (var i in result.errors) {
+                        var err = result.errors[i];
+                        modal_body.find("#" + err.key.toLocaleLowerCase()).parent().addClass("is-invalid");
+                        toastr.error(err.value, "Hata");
+                    }
+                } else {
+                    // başarı mesajı göster ve modal kapat.
+                    toastr.success(result.success, "Güncellendi");
+
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 500);
+                }
+            });
+        }
+
+        function setDetailsModal(id) {
+            loadUserListSelect("modal-details",function () {
+                $.ajax({
+                    method: "get",
+                    url: "/Issues/Details/" + id
+                }).done(function (result) {
+                    console.log(result);
+                    if (result != null) {
+                        var modal_body = $("#modal-details .modal-body");
+                        var inp_summary = modal_body.find("#summary");
+                        var inp_duedate = modal_body.find("#duedate");
+                        var inp_completed = modal_body.find("#completed");
+                        var inp_userid = modal_body.find("#userid");
+
+                        inp_summary.val(result.data.summary);
+                        inp_duedate.val(result.data.dueDate);
+                        inp_userid.val(result.data.userId);
+                        inp_completed.prop('checked', result.data.completed);
+
+                        if (inp_summary.val() != null) inp_summary.parent().addClass("is-filled");
+                        if (inp_duedate.val() != null) inp_duedate.parent().addClass("is-filled");
+                        if (inp_userid.val() != null) inp_userid.parent().addClass("is-filled");
+                    }
+                });
+            });
+        }
+
+        function setDeleteModal(id) {
+            loadUserListSelect("modal-delete",function () {
+                $.ajax({
+                    method: "get",
+                    url: "/Issues/Details/" + id
+                }).done(function (result) {
+                    if (result != null) {
+                        var modal_body = $("#modal-delete .modal-body");
+                        var inp_summary = modal_body.find("#summary");
+                        var inp_duedate = modal_body.find("#duedate");
+                        var inp_completed = modal_body.find("#completed");
+                        var inp_userid = modal_body.find("#userid");
+                        var inp_issueid = modal_body.find("#issueid");
+
+                        inp_summary.val(result.data.summary);
+                        inp_duedate.val(result.data.dueDate);
+                        inp_userid.val(result.data.userId);
+                        inp_completed.prop('checked', result.data.completed);
+                        inp_issueid.val(result.data.id);
+
+                        if (inp_summary.val() != null) inp_summary.parent().addClass("is-filled");
+                        if (inp_duedate.val() != null) inp_duedate.parent().addClass("is-filled");
+                        if (inp_userid.val() != null) inp_userid.parent().addClass("is-filled");
+                    }
+                });
+            });
+        }
+
+        function destroy() {
+            var modal_body = $("#modal-delete .modal-body");
+            var fid = modal_body.find("#issueid").val();
+
+            $.ajax({
+                method: "post",
+                url: "/Issues/Delete/" + fid
+            }).done(function (result) {
+                if (result.error == true) {
+                    for (var i in result.errors) {
+                        var err = result.errors[i];
+                        toastr.error(err.value, "Hata");
+                    }
+                } else {
+                    // başarı mesajı göster ve modal kapat.
+                    toastr.success(result.success, "Silindi");
+
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 500);
+                }
+            });
+        }
+
+        $(function () {
+            $("#search").keyup(function (e) {
+                //console.log(e.key);
+
+                if (e.key == "Enter") {
+                    //console.log("search", $(this).val());
+                    var keyword = $(this).val();
+                    window.location = "/Issues/Index?search=" + encodeURI(keyword);
+                }
+            });
+        });
+
+    </script>
+}

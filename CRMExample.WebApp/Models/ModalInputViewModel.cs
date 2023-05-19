@@ -7,5 +7,6 @@ namespace CRMExpample.WebApp.Models
         public bool IsReadonly { get; set; } = false;
         public string Description { get; set; } = "Müþteri Bilgileri Alaný";
         public bool HasId { get; set; } = false;
+
     }
 }

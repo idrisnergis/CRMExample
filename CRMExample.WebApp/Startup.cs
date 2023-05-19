@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SupperCRMExample.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,9 +42,11 @@ namespace CRMExpample.WebApp
 
             services.AddScoped<IClientService,ClientService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IIssueService, IssueService>();
 
             services.AddScoped<IClientRepository , ClientRepository>();          
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IIssueRepository, IssueRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

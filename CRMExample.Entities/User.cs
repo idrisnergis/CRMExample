@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CRMExample.Entities.Abstract;
@@ -26,5 +27,7 @@ namespace CRMExample.Entities
         public bool Locked { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public virtual List<Issue> Issues { get; set; }
     }
 }

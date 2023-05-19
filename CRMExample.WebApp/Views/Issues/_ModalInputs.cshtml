@@ -1,0 +1,29 @@
+﻿@model ModalInputIssueViewModel
+
+<p class="text-sm">
+    @Model.Description
+</p>
+<div class="input-group input-group-outline my-3">
+    <label class="form-label">Özet</label>
+    <input id="summary" type="text" class="form-control" @(Model.IsReadonly ? "readonly" : "")>
+</div>
+<div class="input-group input-group-outline my-3">
+    <label class="form-label">Son Tarih</label>
+    <input id="duedate" type="datetime-local" class="form-control" @(Model.IsReadonly ? "readonly" : "")>
+</div>
+@if (Model.HasCompletedField)
+{
+    <div class="form-check my-3">
+        <input class="form-check-input" type="checkbox" id="completed" @(Model.IsReadonly ? "disabled" : "")>
+        <label class="custom-control-label" for="completed">Tamamlandı</label>
+    </div>
+}
+<div class="input-group input-group-outline is-filled my-3" @(Model.IsReadonly ? "disabled" : "")>
+    <label for="userid" class="form-label">Atanan</label>
+    <select class="form-control" id="userid">
+    </select>
+</div>
+@if (Model.HasId)
+{
+    <input type="hidden" id="issueid" value="" />
+}

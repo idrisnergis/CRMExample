@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <None Include="bundleconfig.json" />
+    <None Include="Views\Issues\Index.cshtml" />
     <None Include="wwwroot\assets\js\core\bootstrap.bundle.min.js" />
     <None Include="wwwroot\assets\js\core\bootstrap.min.js" />
     <None Include="wwwroot\assets\js\core\popper.min.js" />

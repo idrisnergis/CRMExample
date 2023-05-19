@@ -12,7 +12,7 @@ namespace CRMExample.DataAccess.Abstract
         where TEntity : EntityBase
     {
         private readonly DatabaseContext _context;
-        private readonly DbSet<TEntity> _set;
+        protected readonly DbSet<TEntity> _set;
 
         public Repository(DatabaseContext context)
         {
@@ -20,22 +20,22 @@ namespace CRMExample.DataAccess.Abstract
             _set = _context.Set<TEntity>();
         }
 
-        public List<TEntity> GetAll()
+        public virtual List<TEntity> GetAll()
         {
             return _set.ToList();
         }
 
-        public List<TEntity> GetAll(Expression<Func<TEntity,bool>> predicate)
+        public virtual List<TEntity> GetAll(Expression<Func<TEntity,bool>> predicate)
         {
             return _set.Where(predicate).ToList();
         }
 
-        public TEntity Get(int id)
+        public virtual TEntity Get(int id)
         {
             return _set.Find(id);
         }
 
-        public TEntity Add(TEntity model)
+        public virtual TEntity Add(TEntity model)
         {
             _set.Add(model);
 
@@ -45,7 +45,7 @@ namespace CRMExample.DataAccess.Abstract
             return null;
         }
 
-        public void Update(TEntity model)
+        public virtual void Update(TEntity model)
         {
             if (model.Id == 0)
                 throw new ArgumentNullException(nameof(model.Id));
@@ -57,7 +57,7 @@ namespace CRMExample.DataAccess.Abstract
                 throw new Exception("Güncelleme işlemi yapılamadı.");
         }
 
-        public void Remove(int id)
+        public virtual void Remove(int id)
         {
             _set.Remove(Get(id));
 
