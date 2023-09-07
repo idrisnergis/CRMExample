@@ -1,0 +1,126 @@
+﻿@model List<CRMExample.Entities.Notify>
+
+@{ ViewData["Title"] = "Bildirimler";
+                ViewData["PageName"] = "notifications-index"; }
+
+@*<style>
+        .input-group.input-group-outline .form-label{
+            top:-0.6rem;
+        }
+    </style>*@
+
+<div class="row">
+    <div class="col-12">
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Bildirimlerim</h6>
+                </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+                <div class="px-4 d-flex justify-content-end">
+                    <div>
+                        <div class="input-group input-group-sm input-group-outline @(ViewData["search"] != null ? "is-filled" : "")">
+                            <label class="form-label">Arama</label>
+                            <input id="search" type="search" class="form-control form-control-sm" autocomplete="off" value="@ViewData["search"]" />
+                            @if (ViewData["search"] != null)
+                            {
+                <span>
+                    <a asp-action="Index" class="ms-3 text-sm text-danger">Temizle</a>
+                </span>}
+                        </div>
+                    </div>
+                </div>
+                @if (ViewData["search"] != null)
+                {
+    <div class="px-5">
+        <p class="text-sm text-secondary font-weight-bold">
+            Arama sonucunu görüntülüyorsunuz : <span class="text-primary">@ViewData["search"]</span>
+        </p>
+    </div>}
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bildirim</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Durumu</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kayıt Tarihi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (Model == null || Model.Count == 0)
+                            {
+                <tr>
+                    <td class="text-center" colspan="6">
+                        <span class="text-xs font-weight-bold mb-0">Herhangi bir görev verisi bulunamadı.</span>
+                    </td>
+                </tr>}
+
+                            @foreach (var item in Model)
+                            {
+                <tr>
+                    <td class="text-center">
+                        <span class="text-xs font-weight-bold mb-0">@item.Text</span>
+                    </td>
+                    <td class="align-middletext-sm text-center" data-id="@item.Id" data-isread="@item.IsRead.ToString().ToLower()">
+                        <span class="badge cursor-pointer badge-sm bg-gradient-@(item.IsRead?"success":"secondary")" onclick="update(this)">
+                            @(item.IsRead ? "Okundu" : "Okunmadı")
+                        </span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">@item.CreatedAt</span>
+                    </td>
+                </tr>}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>function update(el) {
+            var span = $(el);
+            var td = span.parent();
+            var id = td.data("id");
+            var isread = td.data("isread");
+            //console.log("id", id);
+            //console.log("isread", isread);
+            //console.log("!isread", !isread);
+            isread = !isread;
+            $.ajax({
+                method: "get",
+                url: `/Notify/Edit/${id}?read=${isread}`
+            }).done(function (result) {
+                if (result.error == true) {
+                    for (var i in result.errors) {
+                        var err = result.errors[i];
+                        toastr.error(err.value, "Hata");
+                    }
+                } else {
+                    // başarı mesajı göster ve modal kapat.
+                    toastr.success(result.success, "Güncellendi");
+                    td.data("isread", isread);
+                    span.toggleClass("bg-gradient-success");
+                    span.toggleClass("bg-gradient-secondary");
+                    if (isread == false) {
+                        span.text("Okunmadı");
+                    } else {
+                        span.text("Okundu");
+                    }
+                }
+            });
+        }
+        $(function () {
+            $("#search").keyup(function (e) {
+                //console.log(e.key);
+                if (e.key == "Enter") {
+                    //console.log("search", $(this).val());
+                    var keyword = $(this).val();
+                    window.location = "/Notify/Index?search=" + encodeURI(keyword);
+                }
+            });
+        });</script>
+}

@@ -14,11 +14,13 @@ namespace CRMExample.WebApp.Controllers
     {
         private readonly IIssueService _issueService;
         private readonly IUserService _userService;
+        private readonly INotifyService _notifyService;
 
-        public IssuesController(IIssueService issueService, IUserService userService)
+        public IssuesController(IIssueService issueService, IUserService userService,INotifyService notifyService)
         {
             _issueService = issueService;
             _userService = userService;
+            _notifyService = notifyService;
         }
 
         public ActionResult GetUserList()
@@ -94,7 +96,7 @@ namespace CRMExample.WebApp.Controllers
                 var issue = _issueService.Create(model);
 
                 // todo : burada görev eklendiği için kullanıcıya bildirim eklenmeli.
-
+                _notifyService.Create("Yeni görev atandı.", NotifyType.IssueAdded, model.UserId);
                 response.Success = "Görev eklendi.";
                 return Json(response);
             }
@@ -124,7 +126,10 @@ namespace CRMExample.WebApp.Controllers
                 var issue = _issueService.Update(id, model);
 
                 // todo : burada görev güncellendi için kullanıcıya bildirim eklenmeli.
-
+                if (model.Completed)
+                    _notifyService.Create("Görev tamamlandı.", NotifyType.IssueCompleted, model.UserId);
+                else
+                    _notifyService.Create("Görev güncellendi.", NotifyType.IssueChanged, model.UserId);
                 response.Success = "Görev güncellendi.";
                 return Json(response);
             }

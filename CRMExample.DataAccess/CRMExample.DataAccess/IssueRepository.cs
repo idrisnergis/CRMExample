@@ -11,7 +11,6 @@ namespace SupperCRMExample.DataAccess
 {
     public interface IIssueRepository : IRepository<Issue>
     {
-
     }
 
     public class IssueRepository : Repository<Issue>, IIssueRepository

@@ -1,17 +1,51 @@
-﻿@{
+﻿@inject CRMExample.Services.INotifyService _notifyService
+@{
     string GetNavActiveCssClass(string pageName)
     {
         string cssClass = string.Empty;
+
+
+
+
+
+
+
+
+
+
+
         if (ViewData["PageName"] != null)
         {
             cssClass = (ViewData["PageName"].ToString() == pageName) ? "active bg-gradient-primary" : "";
         }
         return cssClass;
     }
+
     bool isLogged = ViewContext.HttpContext.Session.GetInt32(Constants.Session_Id) != null;
     string name = isLogged ? ViewContext.HttpContext.Session.GetString(Constants.Session_Name) : string.Empty;
+    int userId = isLogged ? ViewContext.HttpContext.Session.GetInt32(Constants.Session_Id).Value : -1;
+    var notifies = isLogged ? _notifyService.ListByUserId(userId, false).Take(5) : new List<CRMExample.Entities.Notify>();
+
 }
+
 <!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -66,7 +100,7 @@
                         <span class="nav-link-text ms-1">Müşteriler</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                     <a class="nav-link text-white  @GetNavActiveCssClass("users-index")" asp-action="Index" asp-controller="Users">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">people</i>
@@ -74,13 +108,13 @@
                         <span class="nav-link-text ms-1">Kullanıcı Yönetimi</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white @GetNavActiveCssClass("leads-index")" asp-action="Index" asp-controller="Leads">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">group_work</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Talepler</span>
-                    </a>
+                <li class="nav-item">-->
+                <a class="nav-link text-white @GetNavActiveCssClass("leads-index")" asp-action="Index" asp-controller="Leads">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">group_work</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Talepler</span>
+                </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white @GetNavActiveCssClass("issues-index")" asp-action="Index" asp-controller="Issues">
@@ -91,42 +125,59 @@
                     </a>
                 </li>
                 @*<li class="nav-item">
-            <a class="nav-link text-white " href="~/pages/tables.html">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="material-icons opacity-10">table_view</i>
-                </div>
-                <span class="nav-link-text ms-1">Tables</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white " href="~/pages/billing.html">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="material-icons opacity-10">receipt_long</i>
-                </div>
-                <span class="nav-link-text ms-1">Billing</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white " href="~/pages/virtual-reality.html">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="material-icons opacity-10">view_in_ar</i>
-                </div>
-                <span class="nav-link-text ms-1">Virtual Reality</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white " href="~/pages/rtl.html">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
-                </div>
-                <span class="nav-link-text ms-1">RTL</span>
-            </a>
-        </li>*@
+                        <a class="nav-link text-white " href="~/pages/tables.html">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">table_view</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Tables</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="~/pages/billing.html">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">receipt_long</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Billing</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="~/pages/virtual-reality.html">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">view_in_ar</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Virtual Reality</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="~/pages/rtl.html">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+                            </div>
+                            <span class="nav-link-text ms-1">RTL</span>
+                        </a>
+                    </li>*@
                 <li class="nav-item">
-                    <a class="nav-link text-white @GetNavActiveCssClass("notifications-index")" href="~/pages/notifications.html">
+                    <a class="nav-link text-white @GetNavActiveCssClass("notifications-index")" asp-action="Index" asp-controller="Notify">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">notifications</i>
                         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <span class="nav-link-text ms-1">Bildirimler</span>
                     </a>
                 </li>
@@ -204,75 +255,92 @@
                                     <span class="d-sm-inline d-none">Bildirimler</span>
                                 </a>
                                 <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                                    <li class="mb-2">
-                                        <a class="dropdown-item border-radius-md" href="javascript:;">
-                                            <div class="d-flex py-1">
-                                                <div class="my-auto">
-                                                    <img src="~/assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                                    @foreach (var item in notifies)
+                                    {
+                                        string url = "/";
+
+                                        switch (item.Type)
+                                        {
+                                            case CRMExample.Entities.NotifyType.IssueAdded:
+                                            case CRMExample.Entities.NotifyType.IssueChanged:
+                                            case CRMExample.Entities.NotifyType.IssueCompleted:
+                                                url = Url.Action("Index", "Issues");
+                                                break;
+                                            case CRMExample.Entities.NotifyType.LeadAdded:
+                                            case CRMExample.Entities.NotifyType.LeadCompleted:
+                                                url = Url.Action("Index", "Leads");
+                                                break;
+                                            default:
+                                                break;
+                                        }
+
+                                        <li class="mb-2">
+                                            <a class="dropdown-item border-radius-md" href="@url">
+                                                <div class="d-flex py-1">
+                                                    @switch (item.Type)
+                                                    {
+                                                        case CRMExample.Entities.NotifyType.IssueAdded:
+                                                        case CRMExample.Entities.NotifyType.IssueChanged:
+                                                            <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
+
+                                                                <i class="fa fa-check"></i>
+                                                            </div>
+                                                            break;
+                                                        case CRMExample.Entities.NotifyType.IssueCompleted:
+                                                            <div class="avatar avatar-sm bg-gradient-success  me-3  my-auto">
+                                                                <i class="fa fa-check"></i>
+
+
+                                                            </div>
+                                                            break;
+                                                        case CRMExample.Entities.NotifyType.LeadAdded:
+
+
+
+
+                                                            <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
+                                                                <i class="material-icons opacity-10">group_work</i>
+                                                            </div>
+                                                            break;
+                                                        case CRMExample.Entities.NotifyType.LeadCompleted:
+                                                            <div class="avatar avatar-sm bg-gradient-success  me-3  my-auto">
+                                                                <i class="material-icons opacity-10">group_work</i>
+
+
+
+                                                            </div>
+                                                            break;
+                                                        default:
+                                                            break;
+                                                    }
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm font-weight-normal mb-1">
+                                                            @item.Text
+                                                        </h6>
+                                                        <p class="text-xs text-secondary mb-0">
+                                                            <i class="fa fa-clock me-1"></i>
+                                                            @item.CreatedAt
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="text-sm font-weight-normal mb-1">
-                                                        <span class="font-weight-bold">New message</span> from Laur
-                                                    </h6>
-                                                    <p class="text-xs text-secondary mb-0">
-                                                        <i class="fa fa-clock me-1"></i>
-                                                        13 minutes ago
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="mb-2">
-                                        <a class="dropdown-item border-radius-md" href="javascript:;">
-                                            <div class="d-flex py-1">
-                                                <div class="my-auto">
-                                                    <img src="~/assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="text-sm font-weight-normal mb-1">
-                                                        <span class="font-weight-bold">New album</span> by Travis Scott
-                                                    </h6>
-                                                    <p class="text-xs text-secondary mb-0">
-                                                        <i class="fa fa-clock me-1"></i>
-                                                        1 day
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item border-radius-md" href="javascript:;">
-                                            <div class="d-flex py-1">
-                                                <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                                                    <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <title>credit-card</title>
-                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                            <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                                                                <g transform="translate(1716.000000, 291.000000)">
-                                                                    <g transform="translate(453.000000, 454.000000)">
-                                                                        <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" opacity="0.593633743"></path>
-                                                                        <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
-                                                                    </g>
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </svg>
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="text-sm font-weight-normal mb-1">
-                                                        Payment successfully completed
-                                                    </h6>
-                                                    <p class="text-xs text-secondary mb-0">
-                                                        <i class="fa fa-clock me-1"></i>
-                                                        2 days
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
+
+                                            </a>
+                                        </li>
+                                    }
                                 </ul>
                             </li>
                             <li class="nav-item d-flex  pe-2 align-items-center">
+
+
+
+
+
+
+
+
+
+
+
                                 <a asp-action="Profile" asp-controller="Account" class="nav-link text-body font-weight-bold px-0">
                                     <i class="fa fa-user me-sm-1"></i>
                                     <span class="d-sm-inline d-none">@name</span>
