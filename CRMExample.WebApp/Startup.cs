@@ -37,18 +37,20 @@ namespace CRMExpample.WebApp
             services.AddSession(opts =>
             {
                 opts.Cookie.Name = "Crm.session";
-                opts.IdleTimeout = TimeSpan.FromMinutes(5);//Cookii 
+                opts.IdleTimeout = TimeSpan.FromHours(24);//Cookii 
             });
 
             services.AddScoped<IClientService,ClientService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IIssueService, IssueService>();
             services.AddScoped<INotifyRepository, NotifyRepository>();
+            services.AddScoped<ILogRepository, LogRepository>();
 
             services.AddScoped<IClientRepository , ClientRepository>();          
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IIssueRepository, IssueRepository>();
             services.AddScoped<INotifyService, NotifyService>();
+            services.AddScoped<IlogService, LogService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

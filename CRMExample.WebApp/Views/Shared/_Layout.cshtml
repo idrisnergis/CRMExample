@@ -4,16 +4,6 @@
     {
         string cssClass = string.Empty;
 
-
-
-
-
-
-
-
-
-
-
         if (ViewData["PageName"] != null)
         {
             cssClass = (ViewData["PageName"].ToString() == pageName) ? "active bg-gradient-primary" : "";
@@ -29,23 +19,6 @@
 }
 
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -161,23 +134,6 @@
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">notifications</i>
                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         <span class="nav-link-text ms-1">Bildirimler</span>
                     </a>
                 </li>
@@ -282,22 +238,15 @@
                                                         case CRMExample.Entities.NotifyType.IssueAdded:
                                                         case CRMExample.Entities.NotifyType.IssueChanged:
                                                             <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-
                                                                 <i class="fa fa-check"></i>
                                                             </div>
                                                             break;
                                                         case CRMExample.Entities.NotifyType.IssueCompleted:
                                                             <div class="avatar avatar-sm bg-gradient-success  me-3  my-auto">
                                                                 <i class="fa fa-check"></i>
-
-
                                                             </div>
                                                             break;
                                                         case CRMExample.Entities.NotifyType.LeadAdded:
-
-
-
-
                                                             <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
                                                                 <i class="material-icons opacity-10">group_work</i>
                                                             </div>
@@ -305,9 +254,6 @@
                                                         case CRMExample.Entities.NotifyType.LeadCompleted:
                                                             <div class="avatar avatar-sm bg-gradient-success  me-3  my-auto">
                                                                 <i class="material-icons opacity-10">group_work</i>
-
-
-
                                                             </div>
                                                             break;
                                                         default:
@@ -330,17 +276,6 @@
                                 </ul>
                             </li>
                             <li class="nav-item d-flex  pe-2 align-items-center">
-
-
-
-
-
-
-
-
-
-
-
                                 <a asp-action="Profile" asp-controller="Account" class="nav-link text-body font-weight-bold px-0">
                                     <i class="fa fa-user me-sm-1"></i>
                                     <span class="d-sm-inline d-none">@name</span>
