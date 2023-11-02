@@ -45,12 +45,14 @@ namespace CRMExpample.WebApp
             services.AddScoped<IIssueService, IssueService>();
             services.AddScoped<INotifyRepository, NotifyRepository>();
             services.AddScoped<ILogRepository, LogRepository>();
+            services.AddScoped<ILeadRepository, LeadRepository>();
 
             services.AddScoped<IClientRepository , ClientRepository>();          
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IIssueRepository, IssueRepository>();
             services.AddScoped<INotifyService, NotifyService>();
             services.AddScoped<IlogService, LogService>();
+            services.AddScoped<ILeadService, LeadService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

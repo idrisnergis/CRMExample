@@ -1,0 +1,512 @@
+﻿@model List<CRMExample.Entities.Lead>
+
+@{ ViewData["Title"] = "Talepler";
+                ViewData["PageName"] = "leads-index"; }
+
+@*<style>
+        .input-group.input-group-outline .form-label{
+            top:-0.6rem;
+        }
+    </style>*@
+
+<div class="row">
+    <div class="col-12">
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Talep Listesi</h6>
+                </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+                <div class="px-4 d-flex justify-content-between">
+                    <div>
+                        <button class="btn btn-icon btn-3 btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modal-create" onclick="setCreateModal()">
+                            <i class="fa fa-plus me-2"></i>
+                            <span>Yeni Talep</span>
+                        </button>
+                    </div>
+                    <div>
+                        <div class="input-group input-group-sm input-group-outline @(ViewData["search"] != null ? "is-filled" : "")">
+                            <label class="form-label">Arama</label>
+                            <input id="search" type="search" class="form-control form-control-sm" autocomplete="off" value="@ViewData["search"]" />
+                            @if (ViewData["search"] != null)
+                            {
+                <span>
+                    <a asp-action="Index" class="ms-3 text-sm text-danger">Temizle</a>
+                </span>}
+                        </div>
+                    </div>
+                </div>
+                @if (ViewData["search"] != null)
+                {
+    <div class="px-5">
+        <p class="text-sm text-secondary font-weight-bold">
+            Arama sonucunu görüntülüyorsunuz : <span class="text-primary">@ViewData["search"]</span>
+        </p>
+    </div>}
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Müşteri</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Özet</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Durumu</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Atanan</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kayıt Tarihi</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Güncellenme Tarihi</th>
+                                <th class="text-center text-secondary opacity-7"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (Model == null || Model.Count == 0)
+                            {
+                <tr>
+                    <td class="text-center" colspan="6">
+                        <span class="text-xs font-weight-bold mb-0">Herhangi bir talep verisi bulunamadı.</span>
+                    </td>
+                </tr>}
+
+                            @foreach (var item in Model)
+                            {
+                                string badgeColor = "secondary";
+                                string badgeText = string.Empty;
+
+                                switch (item.Type)
+                                {
+                                    case CRMExample.Entities.LeadType.Waiting:
+                                        badgeColor = "primary";
+                                        badgeText = "Bekliyor";
+                                        break;
+                                    case CRMExample.Entities.LeadType.Offered:
+                                        badgeColor = "info";
+                                        badgeText = "Tekliflendi";
+                                        break;
+                                    case CRMExample.Entities.LeadType.ToCall:
+                                        badgeColor = "warning";
+                                        badgeText = "Aranacak";
+                                        break;
+                                    case CRMExample.Entities.LeadType.OnSale:
+                                        badgeColor = "secondary";
+                                        badgeText = "Satışta";
+                                        break;
+                                    case CRMExample.Entities.LeadType.Completed:
+                                        badgeColor = "success";
+                                        badgeText = "Tamamlandı";
+                                        break;
+                                    default:
+                                        badgeColor = "secondary";
+                                        badgeText = "---";
+                                        break;
+                                }
+
+                <tr>
+                    <td class="text-center">
+                        <span class="text-xs font-weight-bold mb-0">@item.Client.Name</span>
+                    </td>
+                    <td class="text-center">
+                        <span class="text-xs mb-0">@item.Summary</span>
+                    </td>
+                    <td class="align-middletext-sm text-center">
+                        <span class="badge badge-sm bg-gradient-@badgeColor">@badgeText</span>
+                    </td>
+                    <td class="text-center">
+                        <span class="text-xs font-weight-bold">@item.User.Name</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">@item.CreatedAt</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">@item.ModifiedAt</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#modal-edit" onclick="setEditModal(@item.Id)" class="text-info font-weight-bold text-xs me-2">
+                            Düzenle
+                        </a>
+                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#modal-details" class="text-secondary font-weight-bold text-xs me-2" onclick="setDetailsModal(@item.Id)">
+                            Detay
+                        </a>
+                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#modal-delete" class="text-danger font-weight-bold text-xs me-2" onclick="setDeleteModal(@item.Id)">
+                            Sil
+                        </a>
+                    </td>
+                </tr>}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="modal-create" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title font-weight-normal" id="modal-title-default">Yeni Talep Oluştur</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <partial name="_ModalInputs" model="@(new ModalInputLeadViewModel())" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-gradient-primary" onclick="create()">Kaydet</button>
+                        <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title font-weight-normal" id="modal-title-default">Talep Güncelleme</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <partial name="_ModalInputs" model="@(new ModalInputLeadViewModel { HasId=true, HasTypeField = true })" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-gradient-warning" onclick="update()">Güncelle</button>
+                        <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-details" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title font-weight-normal" id="modal-title-default">Talep Detayları</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <partial name="_ModalInputs" model="@(new ModalInputLeadViewModel { IsReadonly=true, HasTypeField=true })" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title font-weight-normal" id="modal-title-default">Talep Sil</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <partial name="_ModalInputs" model="@(new ModalInputLeadViewModel { IsReadonly=true, HasId=true, HasTypeField = true, Description="Aşağıdaki talep kaydını silmek istediğinize emin misiniz?" })" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-gradient-danger" onclick="destroy()">Sil (Geri Alınamaz!)</button>
+                        <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>function loadUserListSelect(modalid, callback) {
+            $.ajax({
+                method: "get",
+                url: "/Leads/GetUserList"
+            }).done(function (result) {
+                console.log("GetUserList", result);
+                if (result != null && !result.error) {
+                    var modal_body = $("#" + modalid + " .modal-body");
+                    var inp_userid = modal_body.find("#userid");
+                    inp_userid.empty();
+                    for (var i = 0; i < result.data.length; i++) {
+                        var item = result.data[i];
+                        inp_userid.append(`<option value="${item.id}">${item.name}</option>`);
+                    }
+                    if (inp_userid.val() != null) inp_userid.parent().addClass("is-filled");
+                }
+            }).always(function () {
+                if (callback != null)
+                    callback();
+            });
+        }
+        function loadClientListSelect(modalid, callback) {
+            $.ajax({
+                method: "get",
+                url: "/Leads/GetClientList"
+            }).done(function (result) {
+                console.log("GetClientList", result);
+                if (result != null && !result.error) {
+                    var modal_body = $("#" + modalid + " .modal-body");
+                    var inp_clientid = modal_body.find("#clientid");
+                    inp_clientid.empty();
+                    for (var i = 0; i < result.data.length; i++) {
+                        var item = result.data[i];
+                        inp_clientid.append(`<option value="${item.id}">${item.name}</option>`);
+                    }
+                    if (inp_clientid.val() != null) inp_clientid.parent().addClass("is-filled");
+                }
+            }).always(function () {
+                if (callback != null)
+                    callback();
+            });
+        }
+        function loadLeadTypeListSelect(modalid, callback) {
+            $.ajax({
+                method: "get",
+                url: "/Leads/GetLeadTypeList"
+            }).done(function (result) {
+                console.log("GetLeadTypeList", result);
+                if (result != null && !result.error) {
+                    var modal_body = $("#" + modalid + " .modal-body");
+                    var inp_leadtype = modal_body.find("#type");
+                    inp_leadtype.empty();
+                    for (var i = 0; i < result.data.length; i++) {
+                        var item = result.data[i];
+                        inp_leadtype.append(`<option value="${item.value}">${item.text}</option>`);
+                    }
+                    if (inp_leadtype.val() != null) inp_leadtype.parent().addClass("is-filled");
+                }
+            }).always(function () {
+                if (callback != null)
+                    callback();
+            });
+        }
+        function setCreateModal() {
+            loadUserListSelect("modal-create");
+            loadClientListSelect("modal-create");
+            loadLeadTypeListSelect("modal-create");
+        }
+        function create() {
+            var modal_body = $("#modal-create .modal-body");
+            var fsummary = modal_body.find("#summary").val();
+            var fdesc = modal_body.find("#desc").val();
+            var fprice = modal_body.find("#price").val();
+            var fclientid = modal_body.find("#clientid").val();
+            var fuserid = modal_body.find("#userid").val();
+            var data = {
+                "summary": fsummary,
+                "desc": fdesc,
+                "price": fprice,
+                "clientid": fclientid,
+                "userid": fuserid
+            };
+            $.ajax({
+                method: "post",
+                url: "/Leads/Create",
+                data: data,
+                beforeSend: function () {
+                    modal_body.find(".is-invalid").removeClass("is-invalid");
+                }
+            }).done(function (result) {
+                if (result.error == true) {
+                    for (var i in result.errors) {
+                        var err = result.errors[i];
+                        modal_body.find("#" + err.key.toLocaleLowerCase()).parent().addClass("is-invalid");
+                        toastr.error(err.value, "Hata");
+                    }
+                } else {
+                    // başarı mesajı göster ve modal kapat.
+                    toastr.success(result.success, "Yeni Talep");
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 500);
+                }
+            });
+        }
+        function setEditModal(id) {
+            loadUserListSelect("modal-edit");
+            loadClientListSelect("modal-edit");
+            loadLeadTypeListSelect("modal-edit");
+            setTimeout(function () {
+                $.ajax({
+                    method: "get",
+                    url: "/Leads/Details/" + id
+                }).done(function (result) {
+                    if (result != null) {
+                        var modal_body = $("#modal-edit .modal-body");
+                        var inp_summary = modal_body.find("#summary");
+                        var inp_desc = modal_body.find("#desc");
+                        var inp_price = modal_body.find("#price");
+                        var inp_clientid = modal_body.find("#clientid");
+                        var inp_userid = modal_body.find("#userid");
+                        var inp_type = modal_body.find("#type");
+                        var inp_leadid = modal_body.find("#leadid");
+                        inp_summary.val(result.data.summary);
+                        inp_desc.val(result.data.desc);
+                        inp_price.val(result.data.price);
+                        inp_clientid.val(result.data.clientId);
+                        inp_userid.val(result.data.userId);
+                        inp_type.val(result.data.type);
+                        inp_leadid.val(result.data.id);
+                        if (inp_summary.val() != null) inp_summary.parent().addClass("is-filled");
+                        if (inp_desc.val() != null) inp_desc.parent().addClass("is-filled");
+                        if (inp_price.val() != null) inp_price.parent().addClass("is-filled");
+                        if (inp_userid.val() != null) inp_userid.parent().addClass("is-filled");
+                        if (inp_clientid.val() != null) inp_clientid.parent().addClass("is-filled");
+                        if (inp_type.val() != null) inp_type.parent().addClass("is-filled");
+                    }
+                });
+            }, 1000);
+        }
+        function update() {
+            var modal_body = $("#modal-edit .modal-body");
+            var fsummary = modal_body.find("#summary").val();
+            var fdesc = modal_body.find("#desc").val();
+            var fprice = modal_body.find("#price").val();
+            var fclientid = modal_body.find("#clientid").val();
+            var fuserid = modal_body.find("#userid").val();
+            var ftype = modal_body.find("#type").val();
+            var fid = modal_body.find("#leadid").val();
+            var data = {
+                "summary": fsummary,
+                "desc": fdesc,
+                "price": fprice,
+                "type": ftype,
+                "clientid": fclientid,
+                "userid": fuserid
+            };
+            $.ajax({
+                method: "post",
+                url: "/Leads/Edit/" + fid,
+                data: data,
+                beforeSend: function () {
+                    modal_body.find(".is-invalid").removeClass("is-invalid");
+                }
+            }).done(function (result) {
+                if (result.error == true) {
+                    for (var i in result.errors) {
+                        var err = result.errors[i];
+                        modal_body.find("#" + err.key.toLocaleLowerCase()).parent().addClass("is-invalid");
+                        toastr.error(err.value, "Hata");
+                    }
+                } else {
+                    // başarı mesajı göster ve modal kapat.
+                    toastr.success(result.success, "Güncellendi");
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 500);
+                }
+            });
+        }
+        function setDetailsModal(id) {
+            loadUserListSelect("modal-details");
+            loadClientListSelect("modal-details");
+            loadLeadTypeListSelect("modal-details");
+            setTimeout(function () {
+                $.ajax({
+                    method: "get",
+                    url: "/Leads/Details/" + id
+                }).done(function (result) {
+                    if (result != null) {
+                        var modal_body = $("#modal-details .modal-body");
+                        var inp_summary = modal_body.find("#summary");
+                        var inp_desc = modal_body.find("#desc");
+                        var inp_price = modal_body.find("#price");
+                        var inp_clientid = modal_body.find("#clientid");
+                        var inp_userid = modal_body.find("#userid");
+                        var inp_type = modal_body.find("#type");
+                        var inp_leadid = modal_body.find("#leadid");
+                        inp_summary.val(result.data.summary);
+                        inp_desc.val(result.data.desc);
+                        inp_price.val(result.data.price);
+                        inp_clientid.val(result.data.clientId);
+                        inp_userid.val(result.data.userId);
+                        inp_type.val(result.data.type);
+                        inp_leadid.val(result.data.id);
+                        if (inp_summary.val() != null) inp_summary.parent().addClass("is-filled");
+                        if (inp_desc.val() != null) inp_desc.parent().addClass("is-filled");
+                        if (inp_price.val() != null) inp_price.parent().addClass("is-filled");
+                        if (inp_userid.val() != null) inp_userid.parent().addClass("is-filled");
+                        if (inp_clientid.val() != null) inp_clientid.parent().addClass("is-filled");
+                        if (inp_type.val() != null) inp_type.parent().addClass("is-filled");
+                    }
+                });
+            }, 1000);
+        }
+        function setDeleteModal(id) {
+            loadUserListSelect("modal-delete");
+            loadClientListSelect("modal-delete");
+            loadLeadTypeListSelect("modal-delete");
+            setTimeout(function () {
+                $.ajax({
+                    method: "get",
+                    url: "/Leads/Details/" + id
+                }).done(function (result) {
+                    if (result != null) {
+                        var modal_body = $("#modal-delete .modal-body");
+                        var inp_summary = modal_body.find("#summary");
+                        var inp_desc = modal_body.find("#desc");
+                        var inp_price = modal_body.find("#price");
+                        var inp_clientid = modal_body.find("#clientid");
+                        var inp_userid = modal_body.find("#userid");
+                        var inp_type = modal_body.find("#type");
+                        var inp_leadid = modal_body.find("#leadid");
+                        inp_summary.val(result.data.summary);
+                        inp_desc.val(result.data.desc);
+                        inp_price.val(result.data.price);
+                        inp_clientid.val(result.data.clientId);
+                        inp_userid.val(result.data.userId);
+                        inp_type.val(result.data.type);
+                        inp_leadid.val(result.data.id);
+                        if (inp_summary.val() != null) inp_summary.parent().addClass("is-filled");
+                        if (inp_desc.val() != null) inp_desc.parent().addClass("is-filled");
+                        if (inp_price.val() != null) inp_price.parent().addClass("is-filled");
+                        if (inp_userid.val() != null) inp_userid.parent().addClass("is-filled");
+                        if (inp_clientid.val() != null) inp_clientid.parent().addClass("is-filled");
+                        if (inp_type.val() != null) inp_type.parent().addClass("is-filled");
+                    }
+                });
+            }, 1000);
+        }
+        function destroy() {
+            var modal_body = $("#modal-delete .modal-body");
+            var fid = modal_body.find("#leadid").val();
+            $.ajax({
+                method: "post",
+                url: "/Leads/Delete/" + fid
+            }).done(function (result) {
+                if (result.error == true) {
+                    for (var i in result.errors) {
+                        var err = result.errors[i];
+                        toastr.error(err.value, "Hata");
+                    }
+                } else {
+                    // başarı mesajı göster ve modal kapat.
+                    toastr.success(result.success, "Silindi");
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 500);
+                }
+            });
+        }
+        $(function () {
+            $("#search").keyup(function (e) {
+                //console.log(e.key);
+                if (e.key == "Enter") {
+                    //console.log("search", $(this).val());
+                    var keyword = $(this).val();
+                    window.location = "/Leads/Index?search=" + encodeURI(keyword);
+                }
+            });
+        });</script>
+}

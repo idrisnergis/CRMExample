@@ -1,0 +1,38 @@
+﻿@model ModalInputLeadViewModel
+
+<p class="text-sm">
+    @Model.Description
+</p>
+<div class="input-group input-group-outline is-filled my-3">
+    <label for="clientid" class="form-label">Müşteri</label>
+    <select class="form-control" id="clientid" @(Model.IsReadonly ? "disabled" : "")>
+    </select>
+</div>
+<div class="input-group input-group-outline my-3">
+    <label class="form-label">Özet</label>
+    <input id="summary" type="text" class="form-control" @(Model.IsReadonly ? "readonly" : "")>
+</div>
+<div class="input-group input-group-outline my-3">
+    <label class="form-label">Fiyat</label>
+    <input id="price" type="number" class="form-control" @(Model.IsReadonly ? "readonly" : "")>
+</div>
+@if (Model.HasTypeField)
+{
+<div class="input-group input-group-outline is-filled my-3">
+    <label for="type" class="form-label">Durumu</label>
+    <select class="form-control" id="type" @(Model.IsReadonly ? "disabled" : "")>
+    </select>
+</div>
+}
+<div class="input-group input-group-outline my-3">
+    <label class="form-label">Açıklama</label>
+    <input id="desc" type="text" class="form-control" @(Model.IsReadonly ? "readonly" : "")>
+</div>
+<div class="input-group input-group-outline is-filled my-3">
+    <label for="userid" class="form-label">Atanan</label>
+    <select class="form-control" id="userid" @(Model.IsReadonly ? "disabled" : "")>
+    </select>
+</div>
+@if (Model.HasId)
+{
+<input type="hidden" id="leadid" value="" />}

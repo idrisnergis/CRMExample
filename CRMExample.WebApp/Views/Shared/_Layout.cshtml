@@ -223,6 +223,7 @@
                                                 url = Url.Action("Index", "Issues");
                                                 break;
                                             case CRMExample.Entities.NotifyType.LeadAdded:
+                                            case CRMExample.Entities.NotifyType.LeadChanged:
                                             case CRMExample.Entities.NotifyType.LeadCompleted:
                                                 url = Url.Action("Index", "Leads");
                                                 break;
@@ -236,8 +237,13 @@
                                                     @switch (item.Type)
                                                     {
                                                         case CRMExample.Entities.NotifyType.IssueAdded:
-                                                        case CRMExample.Entities.NotifyType.IssueChanged:
+                                                            //case CRMExample.Entities.NotifyType.IssueChanged:
                                                             <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
+                                                                <i class="fa fa-check"></i>
+                                                            </div>
+                                                            break;
+                                                        case CRMExample.Entities.NotifyType.IssueChanged:
+                                                            <div class="avatar avatar-sm bg-gradient-primary  me-3  my-auto">
                                                                 <i class="fa fa-check"></i>
                                                             </div>
                                                             break;
@@ -251,6 +257,11 @@
                                                                 <i class="material-icons opacity-10">group_work</i>
                                                             </div>
                                                             break;
+                                                        case CRMExample.Entities.NotifyType.LeadChanged:
+                                                            <div class="avatar avatar-sm bg-gradient-primary  me-3  my-auto">
+                                                                <i class="material-icons opacity-10">group_work</i>
+                                                            </div> 
+                                                             break;
                                                         case CRMExample.Entities.NotifyType.LeadCompleted:
                                                             <div class="avatar avatar-sm bg-gradient-success  me-3  my-auto">
                                                                 <i class="material-icons opacity-10">group_work</i>
@@ -258,7 +269,7 @@
                                                             break;
                                                         default:
                                                             break;
-                                                    }
+                                                                    }
                                                     <div class="d-flex flex-column justify-content-center">
                                                         <h6 class="text-sm font-weight-normal mb-1">
                                                             @item.Text
