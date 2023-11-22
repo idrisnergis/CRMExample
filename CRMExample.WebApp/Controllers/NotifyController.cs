@@ -2,6 +2,7 @@
 using CRMExample.Entities;
 using CRMExample.Model;
 using CRMExample.Services;
+using CRMExample.WebApp.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace CRMExample.WebApp.Controllers
 {
+    [Auth]
     public class NotifyController : ControllerBase
     {
         private readonly INotifyService _notifyService;

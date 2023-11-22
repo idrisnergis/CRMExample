@@ -2,6 +2,7 @@
 using CRMExample.Model;
 using CRMExample.Models;
 using CRMExample.Services;
+using CRMExample.WebApp.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -56,6 +57,7 @@ namespace CRMExample.WebApp.Controllers
             return Json(response);
         }
 
+        [Auth]
         public IActionResult Logout()
         {
             int? userId = HttpContext.Session.GetInt32(Constants.Session_Id);
@@ -68,6 +70,8 @@ namespace CRMExample.WebApp.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction(nameof(Login));
         }
+
+        [Auth]
         public IActionResult CreateFakeUser()//Test User Create
         {
             _userService.Create(new CreateUserModel

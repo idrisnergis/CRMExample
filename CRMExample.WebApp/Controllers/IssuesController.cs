@@ -7,9 +7,11 @@ using System.Collections.Generic;
 using System;
 using CRMExample.Common;
 using System.Linq;
+using CRMExample.WebApp.Filters;
 
 namespace CRMExample.WebApp.Controllers
 {
+    [Auth]
     public class IssuesController : ControllerBase
     {
         private readonly IIssueService _issueService;

@@ -1,5 +1,6 @@
 ﻿using CRMExample.Models;
 using CRMExample.Services;
+using CRMExample.WebApp.Filters;
 using CRMExpample.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,10 +12,11 @@ using System.Threading.Tasks;
 
 namespace CRMExpample.WebApp.Controllers
 {
+    [Auth]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+   
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;

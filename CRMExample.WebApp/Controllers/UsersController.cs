@@ -1,7 +1,9 @@
-﻿using CRMExample.Entities;
+﻿using CRMExample.Common;
+using CRMExample.Entities;
 using CRMExample.Model;
 using CRMExample.Models;
 using CRMExample.Services;
+using CRMExample.WebApp.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace CRMExample.WebApp.Controllers
 {
+    [Auth(Roles = Constants.Role_Admin)]
     public class UsersController : ControllerBase
     {
 

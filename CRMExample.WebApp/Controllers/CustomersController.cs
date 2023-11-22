@@ -8,9 +8,11 @@ using System.Collections.Generic;
 using CRMExample.Entities;
 using CRMExample.Models;
 using System;
+using CRMExample.WebApp.Filters;
 
 namespace CRMExample.WebApp.Controllers
 {
+    [Auth]
     public class CustomersController : ControllerBase
     {
         private readonly IClientService _clientService;
