@@ -1,4 +1,5 @@
-﻿using CRMExpample.WebApp.Models;
+﻿using CRMExample.Services;
+using CRMExpample.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -30,6 +31,13 @@ namespace CRMExpample.WebApp.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        //Fake Data 
+        public string GenFakeData([FromServices] IMockService mockService)
+        {
+            mockService.RunFakeGenerator();
+            return "ok";
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
