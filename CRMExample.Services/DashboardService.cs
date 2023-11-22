@@ -136,7 +136,7 @@ namespace CRMExample.Services
             decimal yesterdayIssueCount = issues.Where(x => x.CreatedAt.Date == DateTime.Now.AddDays(-1).Date).Count();
             decimal todayIssueCount = issues.Where(x => x.CreatedAt.Date == DateTime.Now.Date).Count();
             decimal todayCompletedIssueCount = issues.Where(x => x.CreatedAt.Date == DateTime.Now.Date && x.Completed).Count();
-            decimal issueRateByYesterday = yesterdayIssueCount > 0m
+            decimal issueRateByYesterday = todayIssueCount > 0m
                 ? Math.Round((todayIssueCount - yesterdayIssueCount) / yesterdayIssueCount * 100m)
                 : 0m;
 
@@ -146,7 +146,7 @@ namespace CRMExample.Services
 
             decimal yesterdayClientCount = clients.Where(x => x.CreatedAt.Date == DateTime.Now.AddDays(-1).Date).Count();
             decimal todayClientCount = clients.Where(x => x.CreatedAt.Date == DateTime.Now.Date).Count();
-            decimal clientRateByYesterday = yesterdayClientCount > 0m
+            decimal clientRateByYesterday = todayClientCount > 0m
                 ? Math.Round((todayClientCount - yesterdayClientCount) / yesterdayClientCount * 100m)
                 : 0m;
 
@@ -156,7 +156,7 @@ namespace CRMExample.Services
             decimal lastYearClientCount = clients.Where(x => x.CreatedAt.Year == DateTime.Now.Year - 1).Count();
             decimal thisYearClientCount = clients.Where(x => x.CreatedAt.Year == DateTime.Now.Year).Count();
             decimal clientCount = clients.Count;
-            decimal clientRateByLastYear = lastYearClientCount > 0m
+            decimal clientRateByLastYear = thisYearClientCount > 0m
                 ? Math.Round((thisYearClientCount - lastYearClientCount) / lastYearClientCount * 100m)
                 : 0m;
 
@@ -168,7 +168,7 @@ namespace CRMExample.Services
                 leads.Where(x => x.Type == Entities.LeadType.Completed && x.CreatedAt.Date == DateTime.Now.AddDays(-1).Date).Sum(x => x.Price);
             decimal todayCompletedLeadSum =
                 leads.Where(x => x.Type == Entities.LeadType.Completed && x.CreatedAt.Date == DateTime.Now.Date).Sum(x => x.Price);
-            decimal completedLeadPriceRateByYesterday = yesterdayCompletedLeadSum > 0m
+            decimal completedLeadPriceRateByYesterday = todayCompletedLeadSum > 0m
                 ? Math.Round((todayCompletedLeadSum - yesterdayCompletedLeadSum) / yesterdayCompletedLeadSum * 100m)
                 : 0m;
 
