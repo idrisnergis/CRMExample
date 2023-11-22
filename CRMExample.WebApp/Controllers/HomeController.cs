@@ -1,4 +1,5 @@
-﻿using CRMExample.Services;
+﻿using CRMExample.Models;
+using CRMExample.Services;
 using CRMExpample.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,9 +24,10 @@ namespace CRMExpample.WebApp.Controllers
         {
             return View();
         }
-        public IActionResult Dashboard()//Eklenen
+        public IActionResult Dashboard([FromServices] IDashboardService dashboardService)//Eklenen
         {
-            return View();
+            DashboardModel model = dashboardService.GetDashboardModel();
+            return View(model);
         }
 
         public IActionResult Privacy()
