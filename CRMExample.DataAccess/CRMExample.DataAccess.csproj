@@ -2,9 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
@@ -22,8 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CRMExample.Common\CRMExample.Common.csproj" />
-    <ProjectReference Include="..\..\CRMExample.Entities\CRMExample.Entities.csproj" />
+    <ProjectReference Include="..\CRMExample.Common\CRMExample.Common.csproj" />
+    <ProjectReference Include="..\CRMExample.Entities\CRMExample.Entities.csproj" />
   </ItemGroup>
-
 </Project>

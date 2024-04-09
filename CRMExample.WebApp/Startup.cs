@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SupperCRMExample.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;

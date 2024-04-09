@@ -1,7 +1,7 @@
 ﻿using CRMExample.Entities;
 using CRMExample.Model;
 using CRMExample.Services.Abstract;
-using SupperCRMExample.DataAccess;
+using CRMExample.DataAccess;
 using System;
 using System.Collections.Generic;
 

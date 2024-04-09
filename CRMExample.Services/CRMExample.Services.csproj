@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CRMExample.Common\CRMExample.Common.csproj" />
-    <ProjectReference Include="..\CRMExample.DataAccess\CRMExample.DataAccess\CRMExample.DataAccess.csproj" />
+    <ProjectReference Include="..\CRMExample.DataAccess\CRMExample.DataAccess.csproj" />
     <ProjectReference Include="..\CRMExample.Entities\CRMExample.Entities.csproj" />
     <ProjectReference Include="..\CRMExample.Model\CRMExample.Model.csproj" />
   </ItemGroup>

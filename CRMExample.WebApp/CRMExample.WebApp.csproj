@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+	<AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
 
@@ -13,6 +14,21 @@
     <Content Remove="wwwroot\assets\js\plugins\jquery\jquery\jquery.slim.js" />
     <Content Remove="wwwroot\assets\js\plugins\jquery\jquery\jquery.slim.min.js" />
     <Content Remove="wwwroot\assets\js\plugins\jquery\jquery\jquery.slim.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="34.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.17" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.17" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.17">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NETCore.Encrypt" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +65,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CRMExample.DataAccess\CRMExample.DataAccess.csproj" />
     <ProjectReference Include="..\CRMExample.Model\CRMExample.Model.csproj" />
     <ProjectReference Include="..\CRMExample.Services\CRMExample.Services.csproj" />
   </ItemGroup>
